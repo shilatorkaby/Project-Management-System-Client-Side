@@ -1,7 +1,7 @@
 // import 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap';
 
 import $ from "jquery";
-import { addUpdate } from "./sockets";
+// import { addUpdate } from "./sockets";
 import { serverAddress } from "./constants";
 import { validateEmail } from "./validations";
 
@@ -185,14 +185,14 @@ const initEdit = async (key) => {
     
     input.on("input", (event) => {
       let end = input.prop("selectionEnd");
-      addUpdate(
-        key.token,
-        event.originalEvent.data,
-        end - 1,
-        startPos,
-        endPos,
-        history.state.id
-      );
+      // addUpdate(
+      //   key.token,
+      //   event.originalEvent.data,
+      //   end - 1,
+      //   startPos,
+      //   endPos,
+      //   history.state.id
+      // );
     });
   });
 };

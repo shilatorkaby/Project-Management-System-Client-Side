@@ -4,41 +4,17 @@ import { serverAddress } from "./constants";
 
 const initRegister = () => {
 
-
-  const signUpButtonRoute = document.getElementById('sign-up-btn-route');
-  const signInButton = document.getElementById('signIn');
-  const container = document.getElementById('container');
-  
-  
-  // signUpButtonRoute.addEventListener('click', () => {
-
-  $(document).on("click", "#sign-up-btn-route", async () => {
-
-    console.log("sign-up-route");
-    container.classList.add("right-panel-active");
-  });
-  $(document).on("click", "#signIn", async () => {
-
-    console.log("sign-up-route");
-    container.classList.remove("right-panel-active");
-  });
-  
-  // signInButton.addEventListener('click', () => {
-  //   container.classList.remove("right-panel-active");
-  // });
-
   $(document).on("click", "#register-button", async () => {
     const user = {
       email: $("#register-email").val(),
       password: $("#register-password").val(),
     };
     
-    console.log(user.email , user.password);
+    console.log("#register-button");
 
     
     if (validateEmail(user.email)) {
        if(validatePassword(user.password)){
-
 
       fetch(serverAddress + "/user/register", {
         method: "POST",
@@ -49,12 +25,13 @@ const initRegister = () => {
       }).then((response) => registerAlert(response));
      }
     else{
-      document.getElementById("validtion").innerHTML =
+      document.getElementById("register-alert").innerHTML =
       "Password input is not valid!";
+      console.log("Password input is not valid!");;
     }
   }
     else{
-      document.getElementById("validtion").innerHTML =
+      document.getElementById("register-alert").innerHTML =
       "Email input is not valid!";
     }
   });
@@ -67,9 +44,11 @@ function registerAlert(response) {
   if (response.status == 200) {
     document.getElementById("register-alert").innerHTML =
       "Verification email has sent to your inbox";
+      console.log("Verification email has sent to your inbox");
   } else {
     document.getElementById("register-alert").innerHTML =
       "User is already registered! please log in";
+      console.log("User is already registered! please log in");
   }
 }
 

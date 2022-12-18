@@ -16,7 +16,7 @@ const initArchive = async (key) => {
 
   let objs;
 
-  await fetch(serverAddress + "/doc/roles", {
+  await fetch(serverAddress + "/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const initArchive = async (key) => {
       objs = data
     });
 
-  let route = "/user/get/root/sub-files"
+  let route = "/user/get/boards"
   let body = JSON.stringify({})
 
   if (directoryId != null && history.state.title != null) {

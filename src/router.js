@@ -24,7 +24,7 @@ const initRouter = () => {
   urlLocationHandler();
 };
 
-const urlPageTitle = "Shared Document Application";
+const urlPageTitle = "project management system";
 
 let key = { token: "" };
 
@@ -40,6 +40,7 @@ const urlRoutes = {
     title: "Register & Login | " + urlPageTitle,
     description: "This is the register & login page",
     init: () => {
+      console.log("init register");
       initRegister();
       initLogin(key);
     },

@@ -9,26 +9,31 @@ const initLogin = (key) => {
       email: $("#login-email").val(),
       password: $("#login-password").val(),
     };
+    console.log("#login-button");
 
-    // validateEmail(user.email) && validatePassword(user.password)
-    if (true) {
-      await fetch(serverAddress + "/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ email: user.email, password: user.password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          return response.status == 200 ? response.json() : null;
+
+    if (validateEmail(user.email)) {
+      if (validatePassword(user.password)) {
+        console.log("good validation");
+
+        await fetch(serverAddress + "/user/login", {
+          method: "POST",
+          body: JSON.stringify({ email: user.email, password: user.password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .then(async (data) => {
-          if (data != null) {
-            key.token = data.token;
-            window.history.pushState({}, "", "/archive");
-            await urlLocationHandler();
-          }
-        });
+          .then((response) => {
+            return response.status == 200 ? response.json() : null;
+          })
+          .then(async (data) => {
+            if (data != null) {
+              key.token = data.token;
+              window.history.pushState({}, "", "/archive");
+              await urlLocationHandler();
+            }
+          });
+      }
     }
   });
 };
