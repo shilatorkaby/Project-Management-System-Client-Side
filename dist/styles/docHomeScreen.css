@@ -10,7 +10,7 @@ body{
   align-items: center;
 	min-height: 100vh;
 	font-family: 'Jost', sans-serif;
-	background: linear-gradient(to bottom, #ffffff, #dbe8eb, #daf0f6);
+	background: linear-gradient(to bottom, #71a3e9, #dbe8eb, #daf0f6);
 }
 .gallery{
   width: 80%;

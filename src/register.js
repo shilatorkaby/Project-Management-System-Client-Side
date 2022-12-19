@@ -43,8 +43,8 @@ function registerAlert(response) {
   console.log("hi:" +response.status);
   if (response.status == 200) {
     document.getElementById("register-alert").innerHTML =
-      "Verification email has sent to your inbox";
-      console.log("Verification email has sent to your inbox");
+      "The registration was done successfully!\
+      you can log in now";
   } else {
     document.getElementById("register-alert").innerHTML =
       "User is already registered! please log in";

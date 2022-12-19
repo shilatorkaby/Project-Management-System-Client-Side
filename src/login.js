@@ -4,6 +4,7 @@ import { urlLocationHandler } from "./router";
 import { validateEmail, validatePassword } from "./validations";
 
 const initLogin = (key) => {
+
   $("#login-button").on("click", async () => {
     const user = {
       email: $("#login-email").val(),
@@ -24,16 +25,31 @@ const initLogin = (key) => {
           },
         })
           .then((response) => {
-            return response.status == 200 ? response.json() : null;
+            if (response.status != 200) {
+              document.getElementById("login-alert").innerHTML = "User does not exist in the system! please register first";
+              console.log("User does not exist in the system, please register first");
+              return null;
+             };
+             return response.json();
           })
           .then(async (data) => {
             if (data != null) {
-              key.token = data.token;
+              key.token = data;
+              localStorage.setItem("token","");
+
               window.history.pushState({}, "", "/archive");
               await urlLocationHandler();
             }
           });
-      }
+      }else{
+      document.getElementById("login-alert").innerHTML =
+      "Password input is not valid!";
+      console.log("Password input is not valid!");;
+    }
+  }
+    else{
+      document.getElementById("login-alert").innerHTML =
+      "Email input is not valid!";
     }
   });
 };

@@ -6,67 +6,69 @@ import { serverAddress } from "./constants";
 import { validateEmail } from "./validations";
 
 const initEdit = async (key) => {
+  document.getElementById("demo").innerHTML = history.state.board.title;
+
   var fileName = "file";
 
   let textAreaContent = document.getElementById("text-area");
 
-  await fetch(serverAddress + "/doc/fetch", {
-    method: "POST",
-    body: JSON.stringify({ id: history.state.id }),
-    headers: {
-      "Content-Type": "application/json",
-      token: key.token,
-    },
-  })
-    .then((response) => {
-      return response.status == 200 ? response.json() : null;
-    })
-    .then(async (data) => {
-      if (data != null) {
-        fileName = data.fileName;
-        document.getElementById("demo").innerHTML = fileName;
-        if (data.fileContent != null) {
-          textAreaContent.value = data.fileContent;
-        }
-        console.log(data.fileContent);
-      }
-    });
+  // await fetch(serverAddress + "/doc/fetch", {
+  //   method: "POST",
+  //   body: JSON.stringify({ id: history.state.id }),
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     token: key.token,
+  //   },
+  // })
+  //   .then((response) => {
+  //     return response.status == 200 ? response.json() : null;
+  //   })
+  //   .then(async (data) => {
+  //     if (data != null) {
+  //       fileName = data.fileName;
+  //       document.getElementById("demo").innerHTML = fileName;
+  //       if (data.fileContent != null) {
+  //         textAreaContent.value = data.fileContent;
+  //       }
+  //       console.log(data.fileContent);
+  //     }
+  //   });
 
-  var timeoutId;
-  $("#text-area").on("input propertychange change", function () {
-    console.log("Textarea Change");
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(function () {
-      // Runs 1 second (1000 ms) after the last change
-      var content = $("textarea#text-area").val();
-      if (content != null) {
-        fetch(serverAddress + "/doc/save", {
-          method: "POST",
-          body: JSON.stringify({
-            id: history.state.id,
-            fileContent: content,
-            email: $("#email").val(),
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            token: key.token,
-          },
-        })
-          .then((response) => {
-            return response.status == 200 ? response.json() : null;
-          })
-          .then(async (data) => {
-            if (data != null && data.fileContent != null) {
-              console.log(data);
-              console.log(
-                "display updated text back in doc: " + data.fileContent
-              );
-              $("#text-area").value = data.fileContent;
-            }
-          });
-      }
-    }, 1000);
-  });
+  // var timeoutId;
+  // $("#text-area").on("input propertychange change", function () {
+  //   console.log("Textarea Change");
+  //   clearTimeout(timeoutId);
+  //   timeoutId = setTimeout(function () {
+  //     // Runs 1 second (1000 ms) after the last change
+  //     var content = $("textarea#text-area").val();
+  //     if (content != null) {
+  //       fetch(serverAddress + "/doc/save", {
+  //         method: "POST",
+  //         body: JSON.stringify({
+  //           id: history.state.id,
+  //           fileContent: content,
+  //           email: $("#email").val(),
+  //         }),
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           token: key.token,
+  //         },
+  //       })
+  //         .then((response) => {
+  //           return response.status == 200 ? response.json() : null;
+  //         })
+  //         .then(async (data) => {
+  //           if (data != null && data.fileContent != null) {
+  //             console.log(data);
+  //             console.log(
+  //               "display updated text back in doc: " + data.fileContent
+  //             );
+  //             $("#text-area").value = data.fileContent;
+  //           }
+  //         });
+  //     }
+  //   }, 1000);
+  // });
 
   $("#import").on("click", () => {
     var inputFile = document.createElement("input");

@@ -6,209 +6,114 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { serverAddress } from "./constants";
 import { urlLocationHandler } from "./router";
 
-let directoryId;
-let currentFile;
 
 const initArchive = async (key) => {
+  console.log(key.token.data);
 
-
-  directoryId = history.state.fid;
-
-  let objs;
-
-  await fetch(serverAddress + "/", {
+  await fetch(serverAddress + "/user/getBoards", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      token: key.token,
+      Authorization: key.token.data,
     },
   })
     .then((response) => {
       return response.status == 200 ? response.json() : null;
     })
-    .then((data) => {
-      objs = data
-    });
+    .then((boards) => {
+      console.log(boards.data)
 
-  let route = "/user/get/boards"
-  let body = JSON.stringify({})
-
-  if (directoryId != null && history.state.title != null) {
-    route = "/user/get/sub-files"
-    body = JSON.stringify({ id: directoryId, name: history.state.title })
-  }
-
-  fetch(serverAddress + route, {
-    method: "POST",
-    body: body,
-    headers: {
-      "Content-Type": "application/json",
-      token: key.token,
-    },
-  })
-    .then((response) => {
-      return response.status == 200 ? response.json() : null;
-    })
-    .then((files) => {
-      $("#create-document").on("click", () => {
-        window.history.pushState({ id: directoryId }, "", "/create-document");
-        urlLocationHandler();
-      });
-      $("#create-directory").on("click", () => {
-        window.history.pushState({ id: directoryId }, "", "/create-directory");
-        urlLocationHandler();
-      });
-
-
-      if (files != null) {
-        for (const file of files) {
-          console.log(file);
-          currentFile = file;
-          // we check if the given file is document or directory
-          if (isDocument(file)) {
-            $("#content").append(documentHtml(file));
+      if (boards != null) {
+        for (const board of boards.data) {
+          $("#content").append(BoardHtml(board));
+          console.log(board);
 
             // we add listeners for each button dynamically
-            $(`#edit-${file.id}`).on("click", async () => {
-              const role = findRole(objs, file.docId);
-
-              if (role != "VIEWER") {
-                window.history.pushState({ token: key.token, id: file.docId, title: file.name }, "", `/edit`);
-                urlLocationHandler();
-              }
-              else {
-                window.history.pushState({ token: key.token, id: file.docId, title: file.name }, "", `/edit-viewer`);
-                urlLocationHandler();
-              }
-
-            });
-          } else {
-            $("#content").append(directoryHtml(file));
-            // we add listeners for each button dynamically
-            $(`#open-${file.id}`).on("click", async () => {
-              window.history.pushState({ fid: file.id, title: file.name }, "", `/archive`);
+            $(`#open-${board.id}`).on("click", async () => {
+              window.history.pushState({board: board }, "", `/board-view`);
               urlLocationHandler();
             });
-          }
+
+            $(`#delete-${board.id}`).on("click", async () => {
+
+            fetch(serverAddress + "/board/delete", {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: key.token.data,
+                boardId: board.id,
+              },
+            }).then(() => {
+              $(`#${board.id}`).html("");
+              initArchive(key)
+            })
+          });
+        }}
+
+})
+      
+
+
+      // if (boards != null) {
+      //   for (const board of boards) {
+      //     console.log(board);
+
+      //     $("#content").append(directoryHtml(board));
+            // we add listeners for each button dynamically
+            // $(`#open-${board.id}`).on("click", async () => {
+            //   window.history.pushState({ fid: board.id, title: board.name }, "", `/archive`);
+            //   urlLocationHandler();
+            // });
+          
 
           // we add listeners for each button dynamically
-          $(`#move-${file.id}`).on("click", async () => {
-            console.log(key.token, file.id);
-            displayOptionsToMove(key.token, file.id, file.name);
+          // $(`#move-${board.id}`).on("click", async () => {
+          //   console.log(key.token, board.id);
+          //   displayOptionsToMove(key.token, board.id, board.name);
 
-           });
+          //  });
 
-          $(`#delete-${file.id}`).on("click", async () => {
+      //     $(`#delete-${board.id}`).on("click", async () => {
 
-            fetch(serverAddress + "/user/delete/dir", {
-              method: "POST",
-              body: JSON.stringify({
-                id: file.id,
-                fatherId: directoryId,
-                docId: file.docId,
-                name: file.name,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-                token: key.token,
-              },
-            }).then((response) => {
-              console.log(response.body);
-              window.history.pushState({}, "", "/archive");
-            })
-          });
+      //       fetch(serverAddress + "/user/delete/dir", {
+      //         method: "POST",
+      //         body: JSON.stringify({
+      //           id: board.id,
+      //           fatherId: directoryId,
+      //           docId: board.docId,
+      //           name: board.name,
+      //         }),
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //           token: key.token,
+      //         },
+      //       }).then((response) => {
+      //         console.log(response.body);
+      //         window.history.pushState({}, "", "/archive");
+      //       })
+      //     });
+      //   }
 
-        }
-      }
-    });
-};
+      //   }
+      // });
 
-const isDocument = (file) => {
-  return file.docId != null ? true : false;
-};
+      $("#create-board").on("click", () => {
+        console.log("create board btn clicked");
+        window.history.pushState({}, "", "/create-board");
+        urlLocationHandler();
+      })
 
-const displayOptionsToMove = (keyToken, id, title) => {
-  console.log(keyToken, id);
-
-  fetch(serverAddress + "/user/get/optional/dir", {
-    method: "POST",
-    body: JSON.stringify({ id: id ,name: title }),
-    // mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-      token: keyToken,
-    },
-  })
-    .then((response) => {
-      return response.status == 200 ? response.json() : null;
-    }).then((files) => {
-      if (files!= null && files.length > 0) {
-        $("#content").append(`<div id="option">
-      <b>${title} can move to:</b> </br></br>`)
-        for (let file of files) {
-          $("#content").append(`<button id="move-btn-${file.id}" style="height:40px;width:100px">${file.name}</button> &nbsp;&nbsp;&nbsp;`)
-          console.log("move-btn-before-click");
-
-          $(document).on("click", `#move-btn-${file.id}`, function () {
-            fetch(serverAddress + "/user/change/dir", {
-              method: "POST",
-              body: JSON.stringify({
-                id: id,
-                name: title,
-                fatherId: file.id,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-                token: keyToken,
-              },
-            }).then((response) => {
-
-              console.log("update dir: " + response.body);
-              window.history.pushState({}, "", "/archive");
-              document.getElementById(`#move-btn-${file.id}`).style.visibility = 'hidden';
-
-            })
-          });
-        }
-      }
-
-
-    });
-
-};
+    };
 
 
 
-const documentHtml = (file) => {
-  return `<div data-id="${file.id}" data-fid="${file.fatherId}" class="col-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-file-earmark-word-fill" viewBox="0 0 16 16">
-              <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.485 6.879l1.036 4.144.997-3.655a.5.5 0 0 1 .964 0l.997 3.655 1.036-4.144a.5.5 0 0 1 .97.242l-1.5 6a.5.5 0 0 1-.967.01L8 9.402l-1.018 3.73a.5.5 0 0 1-.967-.01l-1.5-6a.5.5 0 1 1 .97-.242z"/>
-            </svg>
-            <b>Title</b>: ${file.name} </br>
-            <button id="edit-${file.id}" class="btn btn-success"> Edit </button>
-            <button id="move-${file.id}" class="btn btn-primary"> Move </button>
-            <button id="delete-${file.id}" class="btn btn-danger"> Delete </button>
+const BoardHtml = (board) => {
+  return `<div id="${board.id}" class="col-3">
+  <p></p>
+  <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" preserveAspectRatio="xMidYMid meet" viewBox="0 0 20 20"><path fill="currentColor" d="M4 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9.883l-1 1.01V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h4.085c.071.2.185.389.344.55l.441.45H6a2 2 0 0 1-2-2V4Zm4 1.5a1 1 0 1 1-2 0a1 1 0 0 1 2 0ZM9.5 5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4Zm0 4a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4ZM9 13.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5Zm-2-3a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm0 4a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm10.855.352a.5.5 0 0 0-.71-.704l-3.643 3.68l-1.645-1.678a.5.5 0 1 0-.714.7l1.929 1.968a.6.6 0 0 0 .855.002l3.928-3.968Z"/></svg>            <b>Title</b>: ${board.title} </br>
+            <button id="open-${board.id}" class="btn btn-success" style = "background:rgb(45, 75, 130)"> Open</button>
+            <button id="delete-${board.id}" class="btn btn-danger" >Delete</button>
         </div>`;
 };
-
-const directoryHtml = (file) => {
-  return `<div data-id="${file.id}" data-fid="${file.fatherId}" class="col-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-              <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
-            </svg>
-            <b>Title</b>: ${file.name} </br>
-            <button id="open-${file.id}" class="btn btn-success"> Open </button>
-            <button id="move-${file.id}" class="btn btn-primary"> Move </button>
-            <button id="delete-${file.id}" class="btn btn-danger"> Delete </button>
-        </div>`;
-};
-
-const findRole = (objs, docId) => {
-  for (let obj of objs) {
-    if (obj.docId == docId) {
-      return obj.role
-    }
-  }
-}
 
 export { initArchive };

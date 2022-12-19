@@ -1,9 +1,9 @@
 import { initArchive } from "./archive";
 import { initLogin } from "./login";
 import { initRegister } from "./register";
-import { initCreateDocument } from "./createDocument";
-import { initCreateDirectory } from "./createDirectory";
+import { initCreateBoard } from "./createBoard";
 import { initEdit } from "./edit";
+import { initBoardView } from "./boardView";
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -74,26 +74,22 @@ const urlRoutes = {
   "/edit-viewer": {
     template: "templates/editViewer.html",
     title: "Edit | " + urlPageTitle,
-    description: "This is the edit page",
     init: () => {
       initEdit(key);
     },
   },
-  "/create-document": {
-    template: "templates/createDocument.html",
-    title: "Create Document | " + urlPageTitle,
-    description: "This is the document page",
+  "/create-board": {
+    template: "templates/createBoard.html",
+    title: "Create Board | " + urlPageTitle,
     init: () => {
-      initCreateDocument(key);
+      initCreateBoard(key);
     }},
-    "/create-directory": {
-      template: "templates/createDirectory.html",
-      title: "Create Directory | " + urlPageTitle,
-      description: "This is the directory page",
-      init: () => {
-        initCreateDirectory(key);
-      },
-    }
+  "/board-view": {
+    template: "templates/boardView.html",
+    title: "Board View | " + urlPageTitle,
+    init: () => {
+      initBoardView(key);
+    }},
  };
 
 // create a function that watches the url and calls the urlLocationHandler
