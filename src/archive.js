@@ -10,8 +10,8 @@ import { urlLocationHandler } from "./router";
 const initArchive = async (key) => {
   console.log(key.token.data);
 
-  await fetch(serverAddress + "/user/getBoards", {
-    method: "POST",
+  await fetch(serverAddress + "/board/getBoardsByUserId", {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: key.token.data,
@@ -45,7 +45,7 @@ const initArchive = async (key) => {
               },
             }).then(() => {
               $(`#${board.id}`).html("");
-              initArchive(key)
+              // initArchive(key)
             })
           });
         }}
