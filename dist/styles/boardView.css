@@ -1,0 +1,19 @@
+
+.board-view-select {
+    background-color: lightgrey;
+}
+
+#div-header {
+    background-color: rgb(197, 177, 194);
+}
+
+#items-div {
+    /* padding:10px; */
+    background-color: rgb(237, 229, 236);
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

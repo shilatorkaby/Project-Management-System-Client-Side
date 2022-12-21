@@ -1,49 +1,48 @@
-// import * as SockJS from "sockjs-client";
-// import { Stomp } from "@stomp/stompjs";
-// import { serverAddress } from "./constants";
-// import { update} from './edit';
+import * as SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import { serverAddress } from "./constants";
+import { loadBoard } from './boardView';
 
 
-// let stompClient;
-// const socketFactory = () => {
-//   return new SockJS(serverAddress + "/ws");
-// };
+let stompClient;
 
-// const onMessageReceived = (payload) => {
-//   var message = JSON.parse(payload.body);
-//   console.log(message);
-//   update(message);
-// };
+const socketFactory = () => {
+  return new SockJS(serverAddress + "/ws");
+};
 
-// const onConnected = () => {
-//   console.log("on connected");
-//   stompClient.subscribe("/topic/updates", onMessageReceived);
-//   stompClient.send("/app/hello", [], JSON.stringify({ name: "Default user" }));
-// };
+const join = () => {
+    openConnection();
+};
 
-// const openConnection = () => {
-//   console.log("on open connected");
-//   const socket = socketFactory();
-//   stompClient = Stomp.over(socket);
-//   stompClient.connect({}, onConnected);
-// };
+const openConnection = () => {
+    console.log("on openConnection");
+
+    const socket = socketFactory();
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, onJoined);
+    stompClient.subscribe("/topic/join", onBoardResponseReceived);
+};
+
+const onJoined = () => {
+    let board = localStorage.getItem("board");
+    let boardId = board.id;
+    console.log(boardId);
+
+    stompClient.send("/app/join", [], JSON.stringify({boardId}));
+}
+
+const onBoardResponseReceived = (payload) => {
+    console.log("on onBoardResponseReceived");
+
+    var message = JSON.parse(payload.body);
+    console.log(message);
+
+    let board = JSON.stringify(message.body.data);
+    localStorage.setItem("board", board);
+
+    loadBoard(board);
+};
 
 
-// // const addUpdate = (token,content, position,startPos,endPos,docId) => {
-// //   sendUpate(token, "APPEND", content, position,startPos,endPos,docId)
-// // }
-// // const sendUpate = (user, type, content, position,startPos,endPos,docId) => {
-// //   console.log(user + "sendUpdate");
-// //   stompClient.send("/app/update", [], JSON.stringify({
-// //       user: user,
-// //       type: type,
-// //       content: content,
-// //       position: position,
-// //       startPos: startPos,
-// //       endPos: endPos,
-// //       docId: docId
-// //       }))
-// // }
-
-// // export { openConnection, addUpdate };
-// export { openConnection};
+export { join };
