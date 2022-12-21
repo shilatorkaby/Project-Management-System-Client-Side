@@ -4,6 +4,7 @@ import { initRegister } from "./register";
 import { initCreateBoard } from "./createBoard";
 import { initEdit } from "./edit";
 import { initBoardView } from "./boardView";
+import { initBoardSetting } from "./boardSetting";
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -89,7 +90,14 @@ const urlRoutes = {
     title: "Board View | " + urlPageTitle,
     init: () => {
       initBoardView(key);
+    }}, 
+    "/board-setting": {
+    template: "templates/boardSetting.html",
+    title: "Board View | " + urlPageTitle,
+    init: () => {
+      initBoardSetting(key);
     }},
+    
  };
 
 // create a function that watches the url and calls the urlLocationHandler

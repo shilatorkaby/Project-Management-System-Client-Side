@@ -29,7 +29,7 @@ label{
 	font-size: 2.3em;
 	justify-content: center;
 	display: flex;
-	margin: 40px;
+	margin: 15px;
 	font-weight: bolder;
 	cursor: pointer;
 	transition: .5s ease-in-out;
@@ -80,4 +80,10 @@ button:hover{
 
 #title{
 	width: 100%;
+}
+
+#close-icon{
+	position: absolute;
+	width: 40px;
+	height: 30px;
 }

@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-// import {urlLocationHandler} from "./router";
+import {urlLocationHandler} from "./router";
 import { serverAddress } from "./constants";
 import { join } from "./sockets";
 
@@ -72,25 +72,12 @@ const displayItems = () => {
 }
 
 const onClickEditBoardButton = async () => {
-    $(`#edit-board-btn`).on("click", async () => {
-        let newTitle = prompt("Please enter new title:", "New Title");
-        let boardId = board.id;
-        console.log(boardId)
 
-        let urlRequest = serverAddress + "/board/title/?title=" + newTitle;
-        await fetch(urlRequest, {
-            method: "PATCH",
-            headers: {
-                Authorization: token,
-                boardId: boardId
-            }
-        }).then((response) => {
-            return response.status == 200 ? response.json() : null;
-          }).then((board) => {
-            console.log(board);
-            loadBoard(board.data)
-        });
-    });
+    $(`#edit-board-btn`).on("click", async () => {
+        window.history.pushState({board : board}, "", "/board-setting");
+        urlLocationHandler();
+      })
+
 }
 
 const onClickDeleteStatus = (status) => {
