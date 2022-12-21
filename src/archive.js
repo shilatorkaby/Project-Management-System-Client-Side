@@ -14,8 +14,8 @@ const initArchive = async (key) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: key.token.data,
-    },
+      Authorization: key.token.data
+      },
   })
     .then((response) => {
       return response.status == 200 ? response.json() : null;
