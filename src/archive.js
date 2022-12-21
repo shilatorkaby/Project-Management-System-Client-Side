@@ -45,7 +45,7 @@ const initArchive = async (key) => {
               },
             }).then(() => {
               $(`#${board.id}`).html("");
-              // initArchive(key)
+              
             })
           });
         }}
