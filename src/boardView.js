@@ -4,37 +4,41 @@ import {urlLocationHandler} from "./router";
 import { serverAddress } from "./constants";
 import { join } from "./sockets";
 
-let board;
+// let board;
 let token;
 
 const initBoardView = async (key) => {
-    board = history.state.board;
+    let board = history.state.board;
     token = key.token.data;
+    console.log("init - befot load board");
+    loadBoard(board);
 
-    loadBoard();
     join();
 }
 
-const loadBoard = () => {
-    displayBoardTitle();
-    displayStatusesList();
-    displayTypesList();
-    displayItems();
+const loadBoard = (boardToDisplay) => {
+    console.log(boardToDisplay);
+    // console.log("boardToDisplay: "+ boardToDisplay);
 
-    onClickEditBoardButton();
+    displayBoardTitle(boardToDisplay);
+    displayStatusesList(boardToDisplay);
+    displayTypesList(boardToDisplay);
+    displayItems(boardToDisplay);
+
+    onClickEditBoardButton(boardToDisplay);
 }
 
-const displayBoardTitle = () => {
-    $("#board-title").html(board.title);
+const displayBoardTitle = (boardToDisplay) => {
+    $("#board-title").html(boardToDisplay.title);
 }
 
-const displayStatusesList = () => {
+const displayStatusesList = (boardToDisplay) => {
     var statusesSelect = document.getElementById('statuses-select')
     let index = 0;
 
-    $("#statuses-select").empty();
+    console.log(boardToDisplay.statuses);
 
-    for (const status of board.statuses) {
+    for (const status of boardToDisplay.statuses) {
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = status;
@@ -43,13 +47,14 @@ const displayStatusesList = () => {
     }
 }
 
-const displayTypesList = () => {
+
+const displayTypesList = (boardToDisplay) => {
     var typesSelect = document.getElementById('types-select')
     let index = 0;
 
-    $("#types-select").empty();
+    $("#types-select").html("");
 
-    for (const type of board.types) {
+    for (const type of boardToDisplay.types) {
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = type;
@@ -58,36 +63,38 @@ const displayTypesList = () => {
     }
 }
 
-const displayItems = () => {
-    if (board.items != null) {
-        for (const [status, items] of Object.entries(board.items)) {
+const displayItems = (boardToDisplay) => {
+    $("#items-div").html("");
+
+    if (boardToDisplay.items != null) {
+        for (const [status, items] of Object.entries(boardToDisplay.items)) {
             $("#items-div").append(StatusHtml(status));
             for (const item of items) {
                 $(`#div-${status.title}`).append(ItemHtml(item));
             }
 
-            onClickDeleteStatus(status);
+            onClickDeleteStatus(status, boardToDisplay);
         }
     }
 }
 
-const onClickEditBoardButton = async () => {
-
+const onClickEditBoardButton = async (boardToDisplay) => {
     $(`#edit-board-btn`).on("click", async () => {
-        window.history.pushState({board : board}, "", "/board-setting");
+        console.log("move to board setting");
+        window.history.pushState({board : boardToDisplay}, "", "/board-setting");
         urlLocationHandler();
       })
 
 }
 
-const onClickDeleteStatus = (status) => {
+const onClickDeleteStatus = (status, boardToDisplay) => {
     $(`#delete-${status}`).on("click", async () => {
         fetch(serverAddress + "/board/removeStatus", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
                 Authorization: token,
-                boardId: board.id
+                boardId: boardToDisplay.id
             },
         }).then(() => {
             $(`#${status}`).html("");

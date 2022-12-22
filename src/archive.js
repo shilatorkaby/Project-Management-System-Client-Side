@@ -53,50 +53,6 @@ const initArchive = async (key) => {
 })
       
 
-
-      // if (boards != null) {
-      //   for (const board of boards) {
-      //     console.log(board);
-
-      //     $("#content").append(directoryHtml(board));
-            // we add listeners for each button dynamically
-            // $(`#open-${board.id}`).on("click", async () => {
-            //   window.history.pushState({ fid: board.id, title: board.name }, "", `/archive`);
-            //   urlLocationHandler();
-            // });
-          
-
-          // we add listeners for each button dynamically
-          // $(`#move-${board.id}`).on("click", async () => {
-          //   console.log(key.token, board.id);
-          //   displayOptionsToMove(key.token, board.id, board.name);
-
-          //  });
-
-      //     $(`#delete-${board.id}`).on("click", async () => {
-
-      //       fetch(serverAddress + "/user/delete/dir", {
-      //         method: "POST",
-      //         body: JSON.stringify({
-      //           id: board.id,
-      //           fatherId: directoryId,
-      //           docId: board.docId,
-      //           name: board.name,
-      //         }),
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //           token: key.token,
-      //         },
-      //       }).then((response) => {
-      //         console.log(response.body);
-      //         window.history.pushState({}, "", "/archive");
-      //       })
-      //     });
-      //   }
-
-      //   }
-      // });
-
       $("#create-board").on("click", () => {
         console.log("create board btn clicked");
         window.history.pushState({}, "", "/create-board");

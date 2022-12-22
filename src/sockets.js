@@ -1,10 +1,9 @@
 import * as SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { serverAddress } from "./constants";
-import { loadBoard } from './boardView';
 
 
-let stompClient;
+var stompClient;
 
 const socketFactory = () => {
   return new SockJS(serverAddress + "/ws");
@@ -21,15 +20,13 @@ const openConnection = () => {
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onJoined);
-    stompClient.subscribe("/topic/join", onBoardResponseReceived);
 };
 
-const onJoined = () => {
-    let board = localStorage.getItem("board");
-    let boardId = board.id;
-    console.log(boardId);
 
-    stompClient.send("/app/join", [], JSON.stringify({boardId}));
+
+const onJoined = () => {
+    // stompClient.send("/app/hello", [], JSON.stringify({ name: "Default user" }));
+    stompClient.subscribe("/topic/updates", onBoardResponseReceived);
 }
 
 const onBoardResponseReceived = (payload) => {
@@ -37,11 +34,6 @@ const onBoardResponseReceived = (payload) => {
 
     var message = JSON.parse(payload.body);
     console.log(message);
-
-    let board = JSON.stringify(message.body.data);
-    localStorage.setItem("board", board);
-
-    loadBoard(board);
 };
 
 
