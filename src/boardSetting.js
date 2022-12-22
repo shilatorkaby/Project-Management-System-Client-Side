@@ -9,22 +9,24 @@ import { urlLocationHandler } from "./router";
 
 let boardId;
 let token;
+let board;
 const initBoardSetting = async (key) => {
+    console.log("arrived to board setting");
+
 
     boardId = history.state.board.id;
     token = key.token.data;
-    
+    board = history.state.board;
+
     $("#close-icon").on("click", ()=>{
-        window.history.pushState({board: history.state.board}, "", "/board-view");
+        window.history.pushState({board: board}, "", "/board-view");
         urlLocationHandler();
     })
 
-    $("#change-title-btn").on("click", function () {
+    $("#changes-title-btn").on("click", function () {
         console.log("change title btn clicked");
-        // console.log("title: "+document.getElementById("set-title-input").value);
        
         changeTitle(document.getElementById("set-title-input").value);
-        // console.log("change board's title to ");
     }); 
     
     $("#add-status-btn").on("click", function () {
@@ -49,19 +51,27 @@ const initBoardSetting = async (key) => {
 
     $("#assign-user-btn").on("click", function () {
         let assignUserEmail = document.getElementById(`assign-user-email`).value
-        let assignUserRole = document.getElementById(`assign-user-role`).value
-        
+        console.log(assignUserEmail);
+        let assignUserRole = $("#assign-user-role :selected").val();
+        console.log(assignUserRole);
+    
         if (assignUserEmail != null && assignUserRole != null) {
             fetch(serverAddress + "/board/grantUserRole", {
                 method: "PATCH",
                 body: JSON.stringify({boardId:boardId, emailOfAssignedUser:assignUserEmail , role:assignUserRole}) ,
                 headers: {
-                    "Content-Type": "text/plain",
+                    "Content-Type": "application/json",
                     Authorization: token,
                     boardId: boardId,
                 },
             }).then((response) => {
                 return response.status == 200 ? response.json() : null;
+            }).then((updatedBoard)=> {
+                if (updatedBoard!=null){
+                    console.log("update value:")
+                    console.log(updatedBoard);
+                    board = updatedBoard;
+                }
             })
         }
 
@@ -104,12 +114,17 @@ const updateValue = (value,path) =>{
         fetch(serverAddress + "/board/"+path+"?value="+value, {
             method: "PATCH",
             headers: {
-                "Content-Type": "text/plain",
                 Authorization: token,
                 boardId: boardId,
             },
         }).then((response) => {
             return response.status == 200 ? response.json() : null;
+        }).then((updatedBoard)=> {
+            if (updatedBoard!=null){
+                console.log("update value:")
+                console.log(updatedBoard.data);
+                board = updatedBoard.data;
+            }
         })
     }
 }

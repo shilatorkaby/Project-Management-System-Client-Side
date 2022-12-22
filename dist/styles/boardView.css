@@ -4,16 +4,66 @@
 }
 
 #div-header {
-    background-color: rgb(197, 177, 194);
+    background-color: rgb(148, 170, 210);
+	width: 800;
 }
 
 #items-div {
-    /* padding:10px; */
-    background-color: rgb(237, 229, 236);
+    background-color: rgb(222, 230, 246);
+	
+}
+
+#filter-label{
+	margin: 0px 0px 30px 10px;
+
+}
+
+#inline-div{
+	display: flex;
+	justify-content: space-between;
+  
+}
+#filter-btn{
+	height: 50%;
+	margin-left: inherit;
+	padding: 0;
 }
 
 .board-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+	margin: 10px;
+}
+
+button{
+	/* width: 60%;
+	height: 40px; */
+	margin: 0px auto; 
+	justify-content: center;
+	display: block;
+	color: #fff;
+	background: rgb(83, 113, 170);
+	font-size: 1.4em;
+	/* margin-top: 30px; */
+	outline: none;
+	border: none;
+	border-radius: 5px;
+	transition: .2s ease-in;
+	cursor: pointer;
+}
+
+#edit-board-btn{
+	margin-right: 0;
+}
+button:hover{
+	background: rgb(45, 75, 130);
+}
+.row {
+	--bs-gutter-x:1.5rem;
+	--bs-gutter-y:1.5rem;
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: auto;
+	margin-right: auto;
 }
