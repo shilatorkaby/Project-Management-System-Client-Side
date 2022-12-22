@@ -51,6 +51,7 @@ const initBoardSetting = async (key) => {
 
     $("#assign-user-btn").on("click", function () {
         let assignUserEmail = document.getElementById(`assign-user-email`).value
+        console.log(assignUserEmail);
         let assignUserRole = $("#assign-user-role :selected").val();
         console.log(assignUserRole);
     
