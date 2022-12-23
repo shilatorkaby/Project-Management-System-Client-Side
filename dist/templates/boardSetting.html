@@ -1,52 +1,47 @@
 <link rel="stylesheet" type="text/css" href="../styles/newBoard.css" />
-<link
-  href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap"
-  rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet" />
 
 <div class="main">
-  <!-- <input type="checkbox" id="chk" aria-hidden="true"/> -->
   <div class="new_file">
     <p></p>
-    <button id= "close-icon">X</button>
+    <button id="close-icon">X</button>
 
     <label for="chk" aria-hidden="true">Edit Board Setting</label>
 
-    <div id = inline-div>
-    <input type="text" id="set-title-input" placeholder="new title"/>
-    <button id = "changes-title-btn">change title</button>
+    <div id=inline-div>
+      <input type="text" id="set-title-input" placeholder="new title" />
+      <button id="changes-title-btn">change title</button>
     </div>
 
-    <div id = inline-div>
-    <input type="text" id="status-input-to-add" placeholder="statuses"/>
-    <button id = "add-status-btn">add status</button>
-  </div>
-  <ul id="statuses-table"></ul>
+    <div id=inline-div>
+      <input type="text" id="status-input-to-add" placeholder="statuses" />
+      <button id="add-status-btn">add status</button>
+    </div>
+    <ul id="statuses-table"></ul>
 
-    <div id = inline-div>
-    <input type="text" id="type-input-to-add" placeholder="type to add"/>
-    <button id = "add-type-btn">add type</button>
-    </div> 
+    <div id=inline-div>
+      <input type="text" id="type-input-to-add" placeholder="type to add" />
+      <button id="add-type-btn">add type</button>
+    </div>
     <ul id="types-to-add-table"></ul>
 
-    <div id = inline-div>
-    <input type="text" id="type-input-to-remove" placeholder="type to remove"/>
-    <button id = "remove-type-btn">remove type</button>
-    </div> 
+    <div id=inline-div>
+      <select name="type-to-remove" id="type-to-remove-select" class="settings-select"
+        placeholder="type to remove"></select>
+      <!-- <input type="text" id="type-input-to-remove" placeholder="type to remove"/> -->
+      <button id="remove-type-btn">remove type</button>
+    </div>
     <ul id="types-to-remove-table"></ul>
 
-    <div id = inline-div>
-    <input type="text" id="assign-user-email" placeholder="email"/>
-    <select name="User-Role" id="assign-user-role">
-      <option value="ADMIN">ADMIN</option>
-      <option value="LEADER">LEADER</option>
-      <option value="USER">USER</option>
-    </select>
-    <!-- <input type="text" id="assign-user-role" placeholder="user role"/> -->
-    <button id = "assign-user-btn">assign user</button>
+    <div id=inline-div>
+      <input type="text" id="assign-user-email" placeholder="email" />
+      <select name="User-Role" id="assign-user-role">
+        <option value="ADMIN">ADMIN</option>
+        <option value="LEADER">LEADER</option>
+        <option value="USER">USER</option>
+      </select>
+      <!-- <input type="text" id="assign-user-role" placeholder="user role"/> -->
+      <button id="assign-user-btn">assign user</button>
     </div>
-
-
   </div>
 </div>
-

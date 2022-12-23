@@ -1,6 +1,7 @@
 import * as SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { serverAddress } from "./constants";
+import { loadBoard } from "./boardView";
 
 
 var stompClient;
@@ -22,10 +23,7 @@ const openConnection = () => {
     stompClient.connect({}, onJoined);
 };
 
-
-
 const onJoined = () => {
-    // stompClient.send("/app/hello", [], JSON.stringify({ name: "Default user" }));
     stompClient.subscribe("/topic/updates", onBoardResponseReceived);
 }
 
@@ -34,6 +32,8 @@ const onBoardResponseReceived = (payload) => {
 
     var message = JSON.parse(payload.body);
     console.log(message);
+
+    loadBoard(message);
 };
 
 

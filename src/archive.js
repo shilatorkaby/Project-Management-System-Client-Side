@@ -15,7 +15,7 @@ const initArchive = async (key) => {
     headers: {
       "Content-Type": "application/json",
       Authorization: key.token.data
-      },
+    },
   })
     .then((response) => {
       return response.status == 200 ? response.json() : null;
@@ -28,13 +28,13 @@ const initArchive = async (key) => {
           $("#content").append(BoardHtml(board));
           console.log(board);
 
-            // we add listeners for each button dynamically
-            $(`#open-${board.id}`).on("click", async () => {
-              window.history.pushState({board: board }, "", `/board-view`);
-              urlLocationHandler();
-            });
+          // we add listeners for each button dynamically
+          $(`#open-${board.id}`).on("click", async () => {
+            window.history.pushState({ board: board }, "", `/board-view`);
+            urlLocationHandler();
+          });
 
-            $(`#delete-${board.id}`).on("click", async () => {
+          $(`#delete-${board.id}`).on("click", async () => {
 
             fetch(serverAddress + "/board/delete", {
               method: "DELETE",
@@ -45,23 +45,20 @@ const initArchive = async (key) => {
               },
             }).then(() => {
               $(`#${board.id}`).html("");
-              
+
             })
           });
-        }}
-
-})
-      
-
-      $("#create-board").on("click", () => {
-        console.log("create board btn clicked");
-        window.history.pushState({}, "", "/create-board");
-        urlLocationHandler();
-      })
-
-    };
+        }
+      }
+    })
 
 
+  $("#create-board").on("click", () => {
+    console.log("create board btn clicked");
+    window.history.pushState({}, "", "/create-board");
+    urlLocationHandler();
+  })
+};
 
 const BoardHtml = (board) => {
   return `<div id="${board.id}" class="col-3">
