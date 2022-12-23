@@ -10,15 +10,13 @@ let token;
 const initBoardView = async (key) => {
     let board = history.state.board;
     token = key.token.data;
-    console.log("init - befot load board");
+    
     loadBoard(board);
-
     join();
 }
 
 const loadBoard = (boardToDisplay) => {
     console.log(boardToDisplay);
-    // console.log("boardToDisplay: "+ boardToDisplay);
 
     displayBoardTitle(boardToDisplay);
     displayStatusesList(boardToDisplay);
@@ -37,6 +35,7 @@ const displayStatusesList = (boardToDisplay) => {
     let index = 0;
 
     console.log(boardToDisplay.statuses);
+    $("#statuses-select").empty();
 
     for (const status of boardToDisplay.statuses) {
         var opt = document.createElement('option');
@@ -52,7 +51,7 @@ const displayTypesList = (boardToDisplay) => {
     var typesSelect = document.getElementById('types-select')
     let index = 0;
 
-    $("#types-select").html("");
+    $("#types-select").empty();
 
     for (const type of boardToDisplay.types) {
         var opt = document.createElement('option');
@@ -64,16 +63,19 @@ const displayTypesList = (boardToDisplay) => {
 }
 
 const displayItems = (boardToDisplay) => {
-    $("#items-div").html("");
+    $("#items-div").empty();
 
     if (boardToDisplay.items != null) {
         for (const [status, items] of Object.entries(boardToDisplay.items)) {
-            $("#items-div").append(StatusHtml(status));
+            let validStatusString = status.replace(' ', '-')
+            
+            $("#items-div").append(StatusHtml(validStatusString));
+            
             for (const item of items) {
-                $(`#div-${status.title}`).append(ItemHtml(item));
+                $(`#div-${validStatusString}`).append(ItemHtml(item));
             }
 
-            onClickDeleteStatus(status, boardToDisplay);
+            onClickDeleteStatus(validStatusString, boardToDisplay);
         }
     }
 }
@@ -103,7 +105,7 @@ const onClickDeleteStatus = (status, boardToDisplay) => {
 }
 
 const StatusHtml = (status) => {
-    return `<div id="div-${status.title}" class="col-3">
+    return `<div id="div-${status}" class="col-3">
     <p></p>
     
     <svg width="12px" height="12px" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
