@@ -85,9 +85,8 @@ const displayItems = (boardToDisplay) => {
                 
             }
 
-            onClickDeleteStatus(validStatusString, boardToDisplay);     
-            console.log("adding on click cteate item");
-
+            onClickDeleteStatus(validStatusString, boardToDisplay);    
+            
             onClickCreateItem(validStatusString,boardToDisplay);       
         }
     }
@@ -120,7 +119,7 @@ const onClickDeleteStatus = (status, boardToDisplay) => {
 const onClickCreateItem = (status, boardToDisplay) => {
 $(`#add-item-${status}`).on("click", () => {
     console.log("create item btn clicked");
-    window.history.pushState({}, "", "/create-item");
+    window.history.pushState({status,board : boardToDisplay}, "", "/create-item");
     urlLocationHandler();
   })
 }

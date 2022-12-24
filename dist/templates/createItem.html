@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="../styles/newBoard.css" />
+<link rel="stylesheet" type="text/css" href="../styles/createItem.css" />
 <link
   href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap"
   rel="stylesheet"
@@ -7,20 +7,18 @@
 <div class="main">
   <div class="new_file">
 
-    <label for="chk" aria-hidden="true">Create New Item</label>
+    <label for="chk" aria-hidden="true" id="page-title-label"> Create New Item</label>
     
     <input type="text" id="title" placeholder="title"/>       
-    <input type="text" id="status-input" placeholder="status" disabled="true"/>
-    
- <!--
-  <ul id="statuses-table"></ul>
 
-    <div id = inline-div>
-    <input type="text" id="type-input" placeholder="types"/>
-    <button id = "add-types">add type</button>
-    </div>
-    <ul id="types-table"></ul>
-  -->
+    <input type="text" id="status-input" placeholder="status" disabled="true"/>
+
+    <label class="field-label" for="types">Select item type</label>
+    <select name="types" id="types-select"></select>
+
+    <label class="field-label" for="items">Select parent item</label>
+    <select name="items" id="items-select"></select>    
+
 
     <button type="click" id="create-button" class="new_file_btn">Create</button>
   
