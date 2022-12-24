@@ -52,13 +52,19 @@ const initArchive = async (key) => {
       }
     })
 
-
   $("#create-board").on("click", () => {
     console.log("create board btn clicked");
     window.history.pushState({}, "", "/create-board");
     urlLocationHandler();
   })
+
+  $("#notification-preferences").on("click", () => {
+    console.log("notification-preferences btn clicked");
+    window.history.pushState({}, "", "/notifications-settings");
+    urlLocationHandler();
+  })
 };
+
 
 const BoardHtml = (board) => {
   return `<div id="${board.id}" class="col-3">

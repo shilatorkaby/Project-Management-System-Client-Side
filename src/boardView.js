@@ -24,6 +24,16 @@ const loadBoard = (boardToDisplay) => {
     displayItems(boardToDisplay);
 
     onClickEditBoardButton(boardToDisplay);
+
+    notify(boardToDisplay);
+}
+
+const notify = (boardToDisplay) => {
+    for (const notifications of boardToDisplay.notifications) {
+        if (notifications != null) {
+            alert(notifications.message);
+        }
+    }
 }
 
 const displayBoardTitle = (boardToDisplay) => {
@@ -45,7 +55,6 @@ const displayStatusesList = (boardToDisplay) => {
         index += 1;
     }
 }
-
 
 const displayTypesList = (boardToDisplay) => {
     var typesSelect = document.getElementById('types-select')

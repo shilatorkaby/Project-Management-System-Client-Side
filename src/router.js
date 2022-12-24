@@ -5,7 +5,11 @@ import { initCreateBoard } from "./createBoard";
 import { initEdit } from "./edit";
 import { initBoardView } from "./boardView";
 import { initBoardSetting } from "./boardSetting";
+<<<<<<< HEAD
 import { initCreateItem } from "./createItem";
+=======
+import { initNotificationsSettings } from "./notificationsSettings";
+>>>>>>> master
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -94,7 +98,7 @@ const urlRoutes = {
     }}, 
     "/board-setting": {
     template: "templates/boardSetting.html",
-    title: "Board View | " + urlPageTitle,
+    title: "Board Settings | " + urlPageTitle,
     init: () => {
       initBoardSetting(key);
     }},
@@ -107,6 +111,12 @@ const urlRoutes = {
     }},
     
     
+    "/notifications-settings": {
+      template: "templates/notificationsSettings.html",
+      title: "Notifications Settings | " + urlPageTitle,
+      init: () => {
+        initNotificationsSettings(key);
+      }},
  };
 
 // create a function that watches the url and calls the urlLocationHandler

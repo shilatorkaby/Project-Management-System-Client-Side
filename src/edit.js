@@ -13,8 +13,8 @@ const initEdit = async (key) => {
   let textAreaContent = document.getElementById("text-area");
 
   // await fetch(serverAddress + "/doc/fetch", {
-  //   method: "POST",
-  //   body: JSON.stringify({ id: history.state.id }),
+  //   method: "POST",body:
+  //    JSON.stringify({ id: history.state.id }),
   //   headers: {
   //     "Content-Type": "application/json",
   //     token: key.token,
