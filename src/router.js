@@ -5,11 +5,7 @@ import { initCreateBoard } from "./createBoard";
 import { initEdit } from "./edit";
 import { initBoardView } from "./boardView";
 import { initBoardSetting } from "./boardSetting";
-<<<<<<< HEAD
-import { initCreateItem } from "./createItem";
-=======
 import { initNotificationsSettings } from "./notificationsSettings";
->>>>>>> master
 
 const initRouter = () => {
   // create document click that watches the nav links only

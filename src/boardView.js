@@ -117,7 +117,6 @@ const onClickDeleteStatus = (status, boardToDisplay) => {
     });
 }
 
-//OUR FUNCTION
 const onClickCreateItem = (status, boardToDisplay) => {
 $(`#add-item-${status}`).on("click", () => {
     console.log("create item btn clicked");
