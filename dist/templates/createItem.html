@@ -5,7 +5,8 @@
 />
 
 <div class="main">
-  <div class="new_file">
+  <div class="new_item">
+    <button id="close-icon">X</button>
 
     <label for="chk" aria-hidden="true" id="page-title-label"> Create New Item</label>
     
@@ -17,10 +18,28 @@
     <select name="types" id="types-select"></select>
 
     <label class="field-label" for="items">Select parent item</label>
-    <select name="items" id="items-select"></select>    
+    <select name="items" id="items-select"></select>
+    
+    <label class="field-label" for="importance">Select importance</label>
+    <select name="importance" id="importance-select">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>   
+
+    <label class="field-label" for="dueDate">Due date:</label>
+    <input type="date" id="item-due-date" name="due-date" value="" min="2023-01-01" max="2024-01-01">
+    
+    <input type="text" id="description" placeholder="description"/>   
+
 
 
     <button type="click" id="create-button" class="new_file_btn">Create</button>
+    <div>
+      <p id="create-item-alert"></p>
+    </div>
   
   </div>
 </div>

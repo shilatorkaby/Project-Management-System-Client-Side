@@ -50,7 +50,7 @@ const displayStatusesList = (boardToDisplay) => {
 
     for (const status of boardToDisplay.statuses) {
         onClickDeleteStatus(status,boardToDisplay);
-        onClickAddItem(status,boardToDisplay);
+        onClickAddItem(status,boardToDisplay);        
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = status;
@@ -123,6 +123,7 @@ const onClickDeleteStatus = (status,boardToDisplay) => {
     });
 }
 
+
 const onClickAddItem = (status, board,title) => {
     $(`#delete-${status}`).on("click", async () => {
         fetch(serverAddress + "/board/addItem" , {
@@ -143,9 +144,9 @@ const onClickAddItem = (status, board,title) => {
     });
 }
 
+
 const onClickCreateItem = (status, boardToDisplay) => {
-$(`#add-item-${status}`).on("click", () => {
-    console.log("create item btn clicked");
+$(`#add-item-${status}`).on("click", () => {    
     window.history.pushState({status,board : boardToDisplay}, "", "/create-item");
     urlLocationHandler();
   })
