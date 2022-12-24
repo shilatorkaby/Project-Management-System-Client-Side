@@ -82,7 +82,7 @@ const initBoardSetting = async (key) => {
                 if (updatedBoard != null){
                     console.log("update value:")
                     console.log(updatedBoard);
-                    board = updatedBoard;
+                    board = updatedBoard.data;
 
                     window.history.pushState({board: board}, "", "/board-view");
                     urlLocationHandler();
