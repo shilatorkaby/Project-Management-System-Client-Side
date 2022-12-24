@@ -25,7 +25,7 @@ const initLogin = (key) => {
           },
         })
           .then((response) => {
-            if (response.status != 200) {
+            if (response.status != 200) {              
               document.getElementById("login-alert").innerHTML = "User does not exist in the system! please register first";
               console.log("User does not exist in the system, please register first");
               return null;

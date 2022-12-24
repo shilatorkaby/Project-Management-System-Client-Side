@@ -73,9 +73,13 @@ const displayItems = (boardToDisplay) => {
             
             for (const item of items) {
                 $(`#div-${validStatusString}`).append(ItemHtml(item));
+                
             }
 
-            onClickDeleteStatus(validStatusString, boardToDisplay);
+            onClickDeleteStatus(validStatusString, boardToDisplay);     
+            console.log("adding on click cteate item");
+
+            onClickCreateItem(validStatusString,boardToDisplay);       
         }
     }
 }
@@ -102,6 +106,15 @@ const onClickDeleteStatus = (status, boardToDisplay) => {
             $(`#${status}`).html("");
         })
     });
+}
+
+//OUR FUNCTION
+const onClickCreateItem = (status, boardToDisplay) => {
+$(`#add-item-${status}`).on("click", () => {
+    console.log("create item btn clicked");
+    window.history.pushState({}, "", "/create-item");
+    urlLocationHandler();
+  })
 }
 
 const StatusHtml = (status) => {

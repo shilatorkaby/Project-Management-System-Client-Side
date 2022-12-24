@@ -5,6 +5,7 @@ import { initCreateBoard } from "./createBoard";
 import { initEdit } from "./edit";
 import { initBoardView } from "./boardView";
 import { initBoardSetting } from "./boardSetting";
+import { initCreateItem } from "./createItem";
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -97,6 +98,14 @@ const urlRoutes = {
     init: () => {
       initBoardSetting(key);
     }},
+    
+    "/create-item": {
+    template: "templates/createItem.html",
+    title: "Create Item | " + urlPageTitle,
+    init: () => {
+      initCreateItem(key);
+    }},
+    
     
  };
 
