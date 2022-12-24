@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import {urlLocationHandler} from "./router";
+import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
 import { join } from "./sockets";
 
@@ -10,9 +10,10 @@ let token;
 const initBoardView = async (key) => {
     let board = history.state.board;
     token = key.token.data;
-    
+
     loadBoard(board);
     join();
+
 }
 
 const loadBoard = (boardToDisplay) => {
@@ -23,7 +24,7 @@ const loadBoard = (boardToDisplay) => {
     displayTypesList(boardToDisplay);
     displayItems(boardToDisplay);
 
-    onClickEditBoardButton(boardToDisplay);
+    onClickSettingBoardButton(boardToDisplay);
 
     notify(boardToDisplay);
 }
@@ -48,6 +49,8 @@ const displayStatusesList = (boardToDisplay) => {
     $("#statuses-select").empty();
 
     for (const status of boardToDisplay.statuses) {
+        onClickDeleteStatus(status,boardToDisplay);
+        onClickAddItem(status,boardToDisplay);
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = status;
@@ -77,9 +80,9 @@ const displayItems = (boardToDisplay) => {
     if (boardToDisplay.items != null) {
         for (const [status, items] of Object.entries(boardToDisplay.items)) {
             let validStatusString = status.replace(' ', '-')
-            
+
             $("#items-div").append(StatusHtml(validStatusString));
-            
+
             for (const item of items) {
                 $(`#div-${validStatusString}`).append(ItemHtml(item));
                 
@@ -92,26 +95,50 @@ const displayItems = (boardToDisplay) => {
     }
 }
 
-const onClickEditBoardButton = async (boardToDisplay) => {
-    $(`#edit-board-btn`).on("click", async () => {
+const onClickSettingBoardButton = async (boardToDisplay) => {
+    $(`#board-setting-btn`).on("click", async () => {
         console.log("move to board setting");
-        window.history.pushState({board : boardToDisplay}, "", "/board-setting");
+        window.history.pushState({ board: boardToDisplay }, "", "/board-setting");
         urlLocationHandler();
-      })
+    })
 
 }
 
-const onClickDeleteStatus = (status, boardToDisplay) => {
+const onClickDeleteStatus = (status,boardToDisplay) => {
     $(`#delete-${status}`).on("click", async () => {
-        fetch(serverAddress + "/board/removeStatus", {
-            method: "PATCH",
+        fetch(serverAddress + "/board/removeStatus?status=" + status, {
+            method: "DELETE",
             headers: {
-                "Content-Type": "application/json",
+                // "Content-Type": "application/json",
                 Authorization: token,
                 boardId: boardToDisplay.id
             },
-        }).then(() => {
-            $(`#${status}`).html("");
+        }).then((updatedBoard) => {
+            if (updatedBoard != null) {
+                console.log("update value:")
+                console.log(updatedBoard);
+                $(`#div-${status}`).html("");
+            }
+        })
+    });
+}
+
+const onClickAddItem = (status, board,title) => {
+    $(`#delete-${status}`).on("click", async () => {
+        fetch(serverAddress + "/board/addItem" , {
+            method: "POST",
+            body: JSON.stringify({boardId: board.id, status: status, title:title }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token,
+                boardId: board.id
+            },
+        }).then((updatedBoard) => {
+            if (updatedBoard != null) {
+                console.log("update value:")
+                console.log(updatedBoard);
+                $(`#div-${status}`).html("");
+            }
         })
     });
 }
