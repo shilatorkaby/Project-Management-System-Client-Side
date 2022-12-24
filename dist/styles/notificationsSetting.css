@@ -26,16 +26,16 @@ body{
 }
 label{
 	color: rgb(83, 113, 170);
-	font-size: 2.3em;
+	font-size: 1.5em;
 	justify-content: center;
 	display: flex;
-	margin: 15px;
+	margin: 7px;
 	font-weight: bolder;
 	cursor: pointer;
 	transition: .5s ease-in-out;
 }
 input{
-	width: 60%;
+	width: 60px;
 	height: 40px;
 
 	background: #e0dede;
@@ -86,4 +86,10 @@ button:hover{
 	position: absolute;
 	width: 40px;
 	height: 30px;
+}
+
+
+.h1,h2,h4 {
+	text-align:left;
+    font-weight: bold;
 }

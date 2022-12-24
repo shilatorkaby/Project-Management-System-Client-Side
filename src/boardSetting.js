@@ -30,8 +30,8 @@ const initBoardSetting = async (key) => {
        
         changeTitle(document.getElementById("set-title-input").value);
 
-        window.history.pushState({board: board}, "", "/board-view");
-        urlLocationHandler();
+        // window.history.pushState({board: board}, "", "/board-view");
+        // urlLocationHandler();
     }); 
     
     $("#add-status-btn").on("click", function () {
@@ -39,8 +39,8 @@ const initBoardSetting = async (key) => {
         const status = document.getElementById("status-input-to-add").value;
         addStatuses(status);
         
-        window.history.pushState({board: board}, "", "/board-view");
-        urlLocationHandler();
+        // window.history.pushState({board: board}, "", "/board-view");
+        // urlLocationHandler();
     });
 
     $("#add-type-btn").on("click", function () {
@@ -49,16 +49,16 @@ const initBoardSetting = async (key) => {
             addTypes(type);
         }
 
-        window.history.pushState({board: board}, "", "/board-view");
-        urlLocationHandler();
+        // window.history.pushState({board: board}, "", "/board-view");
+        // urlLocationHandler();
     });
 
     $("#remove-type-btn").on("click", function () {
         let type = $("#type-to-remove-select :selected").text();
         removeTypes(type);
         
-        window.history.pushState({board: board}, "", "/board-view");
-        urlLocationHandler();
+        // window.history.pushState({board: board}, "", "/board-view");
+        // urlLocationHandler();
     });
 
     $("#assign-user-btn").on("click", function () {
@@ -84,8 +84,8 @@ const initBoardSetting = async (key) => {
                     console.log(updatedBoard);
                     board = updatedBoard.data;
 
-                    window.history.pushState({board: board}, "", "/board-view");
-                    urlLocationHandler();
+                    // window.history.pushState({board: board}, "", "/board-view");
+                    // urlLocationHandler();
                 }
             })
         }
@@ -145,8 +145,8 @@ const updateValue = (value, path) => {
                 console.log(updatedBoard.data);
                 board = updatedBoard.data;
 
-                window.history.pushState({board: board}, "", "/board-view");
-                urlLocationHandler();
+                // window.history.pushState({board: board}, "", "/board-view");
+                // urlLocationHandler();
             }
         })
     }
