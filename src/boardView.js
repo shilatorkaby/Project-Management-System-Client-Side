@@ -50,7 +50,6 @@ const displayStatusesList = (boardToDisplay) => {
 
     for (const status of boardToDisplay.statuses) {
         onClickDeleteStatus(status,boardToDisplay);
-        onClickAddItem(status,boardToDisplay);        
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = status;
@@ -122,28 +121,6 @@ const onClickDeleteStatus = (status,boardToDisplay) => {
         })
     });
 }
-
-
-const onClickAddItem = (status, board,title) => {
-    $(`#delete-${status}`).on("click", async () => {
-        fetch(serverAddress + "/board/addItem" , {
-            method: "POST",
-            body: JSON.stringify({boardId: board.id, status: status, title:title }),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-                boardId: board.id
-            },
-        }).then((updatedBoard) => {
-            if (updatedBoard != null) {
-                console.log("update value:")
-                console.log(updatedBoard);
-                $(`#div-${status}`).html("");
-            }
-        })
-    });
-}
-
 
 const onClickCreateItem = (status, boardToDisplay) => {
 $(`#add-item-${status}`).on("click", () => {    

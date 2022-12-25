@@ -48,7 +48,6 @@ const initCreateItem = (key) => {
           
       fetch(serverAddress + "/board/addItem", {
         method: "POST",
-        //body: JSON.stringify({title: title, status: status, type:type, parentId:parentId, creatorId: creatorId, assignedToId : creatorId}),        
         body: JSON.stringify(item,replacer),
         headers: {
           "Content-Type": "application/json",          
