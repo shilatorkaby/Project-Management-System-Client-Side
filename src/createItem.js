@@ -17,9 +17,10 @@ const initCreateItem = (key) => {
 
   boardId = board.id;
   status = history.state.status;
+  status = status.replace("-", " ");
   token = key.token.data;
 
-  $("#status-name").html("Under status: '" + status+"'");
+  $("#status-name").html("Under status: '" + status + "'");
 
   displayTypesList(board);
   displayStatusItemsList(board);
@@ -40,7 +41,7 @@ const initCreateItem = (key) => {
       return value;
     }
 
-    let item = { title: title, status: status, type: type, parentId: parentId, creatorId: creatorId, assignedToId: creatorId, importance: importance, dueDate: dueDate, description: description };
+    let item = { title: title, status: status, type: type, parentId: parentId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
     console.log(JSON.stringify(item, replacer));
 
     if (title.length != 0) {
@@ -105,15 +106,12 @@ const displayStatusItemsList = (board) => {
   itemsSelect.appendChild(opt);
 
   for (const status of board.statuses) {
-  for (const item of board.items[status]) {
+    for (const item of board.items[status]) {
       var opt = document.createElement('option');
       opt.value = item.id;
       opt.text = item.title;
       itemsSelect.appendChild(opt);
-
-
-  }
-
+    }
   }
 }
 
