@@ -43,8 +43,10 @@ const displayBoardTitle = (boardToDisplay) => {
 
 const displayStatusesList = (boardToDisplay) => {
     var statusesSelect = document.getElementById('statuses-select')
+    console.log(statusesSelect);
     let index = 0;
 
+    // console.log(statusSelect);
     console.log(boardToDisplay.statuses);
     $("#statuses-select").empty();
 
