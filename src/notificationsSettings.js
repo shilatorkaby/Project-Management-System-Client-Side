@@ -1,7 +1,5 @@
 import $ from "jquery";
 
-import { Buffer } from 'buffer';
-
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 

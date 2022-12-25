@@ -53,12 +53,14 @@ button{
 	cursor: pointer;
 }
 
-#board-setting-btn{
+#board-setting-btn {
 	margin-right: 0;
 }
-button:hover{
+
+button:hover {
 	background: rgb(45, 75, 130);
 }
+
 .row {
 	--bs-gutter-x:1.5rem;
 	--bs-gutter-y:1.5rem;
@@ -66,4 +68,10 @@ button:hover{
 	flex-wrap: wrap;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#close-icon {
+	position: absolute;
+	top:5%;
+	left: 20;
 }
