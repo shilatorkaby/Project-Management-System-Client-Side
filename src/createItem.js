@@ -23,7 +23,7 @@ const initCreateItem = (key) => {
 
   displayTypesList(board);
   displayStatusItemsList(board);
-
+  
   $("#create-button").on("click", () => {
     let title = $("#title").val();
     let type = $("#types-select :selected").val();
