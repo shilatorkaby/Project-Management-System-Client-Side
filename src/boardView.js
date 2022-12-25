@@ -12,7 +12,7 @@ const initBoardView = async (key) => {
     token = key.token.data;
     localStorage.setItem("token", token);
 
-    $("#close-icon").on("click", () => {
+    $("#exit-icon").on("click", () => {
         window.history.pushState({}, "", "/archive");
         urlLocationHandler();
     })
@@ -25,13 +25,22 @@ const loadBoard = (boardToDisplay) => {
     console.log(boardToDisplay);
 
     displayBoardTitle(boardToDisplay);
-    displayStatusesList(boardToDisplay);
-    displayTypesList(boardToDisplay);
+    // displayStatusesList(boardToDisplay);
+    // displayTypesList(boardToDisplay);
     displayItems(boardToDisplay);
 
     onClickSettingBoardButton(boardToDisplay);
+    onClickFilterBoardButton(boardToDisplay);
+
 
     notify(boardToDisplay);
+}
+
+const onClickFilterBoardButton = (board) =>{
+    $(`#filter-setting-btn`).on("click", async () => {
+    window.history.pushState({ board: board }, "", "/filter-setting");
+    urlLocationHandler();
+    })
 }
 
 const notify = (boardToDisplay) => {
@@ -49,36 +58,36 @@ const displayBoardTitle = (boardToDisplay) => {
     $("#board-title").html(boardToDisplay.title);
 }
 
-const displayStatusesList = (boardToDisplay) => {
-    var statusesSelect = document.getElementById('statuses-select')
-    let index = 0;
+// const displayStatusesList = (boardToDisplay) => {
+//     var statusesSelect = document.getElementById('statuses-select')
+//     let index = 0;
 
-    $("#statuses-select").empty();
+//     $("#statuses-select").empty();
 
-    for (const status of boardToDisplay.statuses) {
-        onClickDeleteStatus(status,boardToDisplay);
-        var opt = document.createElement('option');
-        opt.value = index;
-        opt.text = status;
-        statusesSelect.appendChild(opt);
-        index += 1;
-    }
-}
+//     for (const status of boardToDisplay.statuses) {
+//         onClickDeleteStatus(status,boardToDisplay);
+//         var opt = document.createElement('option');
+//         opt.value = index;
+//         opt.text = status;
+//         statusesSelect.appendChild(opt);
+//         index += 1;
+//     }
+// }
 
-const displayTypesList = (boardToDisplay) => {
-    var typesSelect = document.getElementById('types-select')
-    let index = 0;
+// const displayTypesList = (boardToDisplay) => {
+//     var typesSelect = document.getElementById('types-select')
+//     let index = 0;
     
-    $("#types-select").empty();
+//     $("#types-select").empty();
 
-    for (const type of boardToDisplay.types) {
-        var opt = document.createElement('option');
-        opt.value = index;
-        opt.text = type;
-        typesSelect.appendChild(opt);
-        index += 1;
-    }
-}
+//     for (const type of boardToDisplay.types) {
+//         var opt = document.createElement('option');
+//         opt.value = index;
+//         opt.text = type;
+//         typesSelect.appendChild(opt);
+//         index += 1;
+//     }
+// }
 
 const displayItems = (boardToDisplay) => {
     $("#items-div").empty();
@@ -115,6 +124,7 @@ const onClickSettingBoardButton = async (boardToDisplay) => {
 
 }
 
+
 const onClickDeleteStatus = (status, boardToDisplay) => {
     let validStatusString = status.replace('-', ' ')
 
@@ -125,7 +135,9 @@ const onClickDeleteStatus = (status, boardToDisplay) => {
                 Authorization: token,
                 boardId: boardToDisplay.id
             },
-        }).then((updatedBoard) => {
+        }).then((response) => {
+            return response.status == 200 ? response.json() : null;
+          }).then((updatedBoard) => {
             if (updatedBoard != null) {
                 console.log("update value:")
                 console.log(updatedBoard);

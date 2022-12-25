@@ -1,24 +1,28 @@
 <link rel="stylesheet" href="../styles/boardView.css" />
 
 <div id="board-view-div">
-    <button id="close-icon">Back to boards page</button>
 
     <div id="div-header">
-        <div class="board-header">
-            <h1 id="board-title"></h1>
+        <div id=inline-btn-div>            
+    
+        <button id="exit-icon">🔙</button>
+
+        <h1 id="board-title"></h1>
+        </div>
+        <div id=inline-btn-div>            
             <button id="board-setting-btn">Board Setting</button>
+            <button id="filter-setting-btn">Costum View</button>
         </div>
         <div id=inline-div>
 
             <div id="filter-label">
 
-                <label for="statuses">Board's statuses</label>
-                <select name="statuses" id="statuses-select" class="board-view-select"></select>
+                <!-- <label for="statuses">Board's statuses</label> -->
+                <!-- <select name="statuses" id="statuses-select" class="board-view-select"></select> -->
 
-                <label for="types">Board's types</label>
-                <select name="types" id="types-select" class="board-view-select"></select>
+                <!-- <label for="types">Board's types</label> -->
+                <!-- <select name="types" id="types-select" class="board-view-select"></select> -->
             </div>
-            <button id="filter-btn">filter</button>
         </div>
         <div id="items-div" , class="row">
 

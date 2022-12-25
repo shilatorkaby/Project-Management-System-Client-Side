@@ -2,11 +2,11 @@ import { initArchive } from "./archive";
 import { initLogin } from "./login";
 import { initRegister } from "./register";
 import { initCreateBoard } from "./createBoard";
-import { initEdit } from "./edit";
-import { initBoardView } from "./boardView";
 import { initBoardSetting } from "./boardSetting";
+import { initBoardView } from "./boardView";
 import { initNotificationsSettings } from "./notificationsSettings";
 import { initCreateItem } from "./createItem";
+import { initFilterSettings } from "./filterSetting";
 import { initEditItem } from "./editItem";
 
 const initRouter = () => {
@@ -67,21 +67,6 @@ const urlRoutes = {
       initArchive(key);
     },
   },
-  "/edit": {
-    template: "templates/edit.html",
-    title: "Edit | " + urlPageTitle,
-    description: "This is the edit page",
-    init: () => {
-      initEdit(key);
-    },
-  },
-  "/edit-viewer": {
-    template: "templates/editViewer.html",
-    title: "Edit | " + urlPageTitle,
-    init: () => {
-      initEdit(key);
-    },
-  },
   "/create-board": {
     template: "templates/createBoard.html",
     title: "Create Board | " + urlPageTitle,
@@ -111,6 +96,12 @@ const urlRoutes = {
       title: "Notifications Settings | " + urlPageTitle,
       init: () => {
         initNotificationsSettings(key);
+      }}, 
+      "/filter-setting": {
+      template: "templates/filterSetting.html",
+      title: "Filter Setting | " + urlPageTitle,
+      init: () => {
+        initFilterSettings(key);
       }},
       "/edit-item": {
         template: "templates/editItem.html",
