@@ -45,12 +45,17 @@ const displayStatusesList = (boardToDisplay) => {
     var statusesSelect = document.getElementById('statuses-select')
     let index = 0;
 
-    console.log(boardToDisplay.statuses);
+    // console.log("boardToDisplay");
+    // console.log(boardToDisplay);
+    // console.log("statusesSelect");
+    // console.log(statusesSelect);
+
     $("#statuses-select").empty();
+    // console.log("empty statusesSelect");
+    // console.log(statusesSelect);
 
     for (const status of boardToDisplay.statuses) {
         onClickDeleteStatus(status,boardToDisplay);
-        onClickAddItem(status,boardToDisplay);
         var opt = document.createElement('option');
         opt.value = index;
         opt.text = status;
@@ -62,7 +67,7 @@ const displayStatusesList = (boardToDisplay) => {
 const displayTypesList = (boardToDisplay) => {
     var typesSelect = document.getElementById('types-select')
     let index = 0;
-
+    
     $("#types-select").empty();
 
     for (const type of boardToDisplay.types) {
@@ -84,10 +89,14 @@ const displayItems = (boardToDisplay) => {
             $("#items-div").append(StatusHtml(validStatusString));
 
             for (const item of items) {
+                if (item.type == null){item.type = "none"}
                 $(`#div-${validStatusString}`).append(ItemHtml(item));
+                
             }
 
-            onClickDeleteStatus(validStatusString, boardToDisplay);
+            onClickDeleteStatus(validStatusString, boardToDisplay);    
+            onClickCreateItem(validStatusString,boardToDisplay);       
+
         }
     }
 }
@@ -120,24 +129,11 @@ const onClickDeleteStatus = (status,boardToDisplay) => {
     });
 }
 
-const onClickAddItem = (status, board,title) => {
-    $(`#delete-${status}`).on("click", async () => {
-        fetch(serverAddress + "/board/addItem" , {
-            method: "POST",
-            body: JSON.stringify({boardId: board.id, status: status, title:title }),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-                boardId: board.id
-            },
-        }).then((updatedBoard) => {
-            if (updatedBoard != null) {
-                console.log("update value:")
-                console.log(updatedBoard);
-                $(`#div-${status}`).html("");
-            }
-        })
-    });
+const onClickCreateItem = (status, boardToDisplay) => {
+$(`#add-item-${status}`).on("click", () => {    
+    window.history.pushState({status,board : boardToDisplay}, "", "/create-item");
+    urlLocationHandler();
+  })
 }
 
 const StatusHtml = (status) => {
@@ -160,10 +156,9 @@ const ItemHtml = (item) => {
     <b>Title</b>: ${item.title} </br>
     <b>Type:</b> ${item.type} </br>
     ${item.description} </br>
-              <span><button id="open-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(45, 75, 130)"> Open</button>
+              <span><button id="open-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px"> Edit</button>
               <button id="delete-${item.id}" class="btn btn-danger btn-board-view" >Delete</button></span>
           </div>`;
 };
 
 export { initBoardView, loadBoard };
-

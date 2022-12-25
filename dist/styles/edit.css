@@ -32,6 +32,8 @@ a {
 
 #demo{
   font-size: 2.8rem;
+  background: rgb(76, 183, 163);
+  
 }
 .toolbar {
   padding: 18px;
