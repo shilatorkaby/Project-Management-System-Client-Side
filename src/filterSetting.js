@@ -10,9 +10,11 @@ import { serverAddress } from "./constants";
 import { urlLocationHandler } from "./router";
 
 let board;
+let token;
 const initFilterSettings = async (key) => {
    
     board = history.state.board;
+    token = key.token.data;
     console.log(board);
 
     
@@ -97,9 +99,11 @@ const onClickFilterBtn = () =>{
                 Authorization: token,
                 boardId: board.id
             },
-        }).then((updatedBoard) => {
+        }).then((response) => {
+            return response.status == 200 ? response.json() : null;
+          }).then((updatedBoard) => {
             if (updatedBoard != null) {
-               loadBoard(updatedBoard);
+                console.log(updatedBoard);
             }
         })
     });

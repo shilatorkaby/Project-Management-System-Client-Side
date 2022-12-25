@@ -44,7 +44,7 @@
 button{
 	/* width: 60%;
 	height: 40px; */
-	margin: 5px ;
+	margin: 4px ;
 	justify-content: center;
 	display: block;
 	color: #fff;
@@ -75,8 +75,11 @@ button:hover {
 	margin-right: auto;
 }
 
-#close-icon {
-	position: absolute;
-	top:5%;
-	left: 20;
+#exit-icon {
+	/* position: absolute;
+	margin-left: 41%; */
+	font-size :0.5;
+	background: rgb(218, 215, 223);
+	/* top:5%; */
+	/* left: 20; */
 }
