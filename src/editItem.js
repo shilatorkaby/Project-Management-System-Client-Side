@@ -15,6 +15,12 @@ const initEditItem = (key) => {
 
   onClose();
   onSetTitleClick(board);
+  onSetDescriptionClick(board);
+  onSetTypeClick(board);
+  onSetStatusClick(board);
+  onSetParentClick(board);
+  onSetImportanceClick(board);
+  onSetDueDateClick(board);
 
   displayItemTitle(item);
   displayTypesList(board);
@@ -39,7 +45,7 @@ const displayTypesList = (board) => {
 
   var opt = document.createElement('option');
   opt.text = "none";
-  opt.value = null;
+  opt.value = "";
   typesSelect.appendChild(opt);
 
   for (const type of board.types) {
@@ -84,7 +90,7 @@ const displayParentItemsList = (board) => {
 const onSetTitleClick = (board) => {
   $("#set-title-btn").on("click", () => {
     let title = document.getElementById("set-title-input").value;
-    let itemRequest = {itemId: item.id, title: title};
+    let itemRequest = { itemId: item.id, title: title };
 
     if (title.length > 0) {
       document.getElementById("edit-item-alert").innerHTML = "";
@@ -102,15 +108,185 @@ const onSetTitleClick = (board) => {
         return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
       }).then((updatedBoard) => {
         if (updatedBoard != null) {
-          console.log(title + " item's title was updated successfully");
+          console.log("item's title was updated successfully");
           window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
           urlLocationHandler();
         }
+      }).catch(error => {
+        document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
       });
-
     } else {
       document.getElementById("edit-item-alert").innerHTML = "Item must have title";
     }
+  })
+}
+
+const onSetDescriptionClick = (board) => {
+  $("#set-description-btn").on("click", () => {
+    let description = document.getElementById("set-description-input").value;
+    let itemRequest = { itemId: item.id, description: description };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_DESCRIPTION"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's description was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
+  })
+}
+
+const onSetTypeClick = (board) => {
+  $("#set-type-btn").on("click", () => {
+    let type = document.getElementById("set-type-select").value.replace("-", " ");
+    let itemRequest = { itemId: item.id, type: type };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_TYPE"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's type was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
+  })
+}
+
+const onSetStatusClick = (board) => {
+  $("#set-status-btn").on("click", () => {
+    let status = document.getElementById("set-status-select").value.replace("-", " ");
+    let itemRequest = { itemId: item.id, status: status };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_STATUS"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's status was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
+  })
+}
+
+const onSetParentClick = (board) => {
+  $("#set-parent-btn").on("click", () => {
+    let parentId = document.getElementById("set-parent-select").value;
+    let itemRequest = { itemId: item.id, parentId: parentId };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_PARENT"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's parent was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
+  })
+}
+
+
+const onSetImportanceClick = (board) => {
+  $("#set-importance-btn").on("click", () => {
+    let importance = document.getElementById("set-importance-select").value;
+    let itemRequest = { itemId: item.id, importance: importance };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_IMPORTANCE"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's importance was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
+  })
+}
+
+const onSetDueDateClick = (board) => {
+  $("#set-due-date-btn").on("click", () => {
+    let dueDate = document.getElementById("item-due-date").value;
+    let itemRequest = { itemId: item.id, dueDate: dueDate };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "SET_ITEM_DUE_DATE"
+      },
+    }).then((response) => {
+      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item's due date was updated successfully");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+    });
   })
 }
 
