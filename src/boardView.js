@@ -25,8 +25,17 @@ const loadBoard = (boardToDisplay) => {
     displayItems(boardToDisplay);
 
     onClickSettingBoardButton(boardToDisplay);
+    onClickFilterBoardButton(boardToDisplay);
+
 
     notify(boardToDisplay);
+}
+
+const onClickFilterBoardButton = (board) =>{
+    $(`#filter-setting-btn`).on("click", async () => {
+    window.history.pushState({ board: board }, "", "/filter-setting");
+    urlLocationHandler();
+    })
 }
 
 const notify = (boardToDisplay) => {
@@ -110,8 +119,13 @@ const onClickSettingBoardButton = async (boardToDisplay) => {
 
 }
 
+
 const onClickDeleteStatus = (status,boardToDisplay) => {
+
+
+
     $(`#delete-${status}`).on("click", async () => {
+
         fetch(serverAddress + "/board/removeStatus?status=" + status, {
             method: "DELETE",
             headers: {

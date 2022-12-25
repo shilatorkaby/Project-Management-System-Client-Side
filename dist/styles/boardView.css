@@ -36,10 +36,15 @@
 	margin: 10px;
 }
 
+#inline-btn-div{
+	display: flex;
+	/* justify-content: space-between; */
+  
+}
 button{
 	/* width: 60%;
 	height: 40px; */
-	margin: 0px auto; 
+	margin: 5px ;
 	justify-content: center;
 	display: block;
 	color: #fff;
@@ -53,9 +58,7 @@ button{
 	cursor: pointer;
 }
 
-#board-setting-btn{
-	margin-right: 0;
-}
+
 button:hover{
 	background: rgb(45, 75, 130);
 }
