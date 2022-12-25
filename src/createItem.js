@@ -13,8 +13,6 @@ const initCreateItem = (key) => {
   console.log("arrived to item create");
 
   board = history.state.board;
-  console.log(board.authorizedUsers);
-
   boardId = board.id;
   status = history.state.status;
   status = status.replace("-", " ");
@@ -23,9 +21,8 @@ const initCreateItem = (key) => {
   $("#status-name").html("Under status: '" + status + "'");
 
   displayTypesList(board);
-  displayStatusItemsList(board);
+  displayParentItemsList(board);
   displayAuthUsersEmailsList(board.authorizedUsers);
-  
 
   $("#create-button").on("click", () => {
 
@@ -100,7 +97,7 @@ const displayTypesList = (board) => {
   }
 }
 
-const displayStatusItemsList = (board) => {
+const displayParentItemsList = (board) => {
   var itemsSelect = document.getElementById('items-select')
   $("#items-select").empty();
 
@@ -127,11 +124,11 @@ const displayAuthUsersEmailsList = (authUsers) => {
   opt.text = "no-assign";
   opt.value = "";
   usersSelect.appendChild(opt);
-  for (const authUser of authUsers) {     
+  for (const authUser of authUsers) {
     var opt = document.createElement('option');
     opt.value = authUser.id;
     opt.text = authUser.email;
-    usersSelect.appendChild(opt);    
+    usersSelect.appendChild(opt);
   }
 }
 

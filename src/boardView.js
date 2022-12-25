@@ -2,18 +2,23 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
+import { Buffer } from 'buffer';
 import { join } from "./sockets";
 
-// let board;
 let token;
 
 const initBoardView = async (key) => {
     let board = history.state.board;
     token = key.token.data;
+    localStorage.setItem("token", token);
+
+    $("#close-icon").on("click", () => {
+        window.history.pushState({}, "", "/archive");
+        urlLocationHandler();
+    })
 
     loadBoard(board);
     join();
-
 }
 
 const loadBoard = (boardToDisplay) => {
@@ -30,9 +35,12 @@ const loadBoard = (boardToDisplay) => {
 }
 
 const notify = (boardToDisplay) => {
-    for (const notifications of boardToDisplay.notifications) {
-        if (notifications != null) {
-            alert(notifications.message);
+    let userId = Buffer.from(localStorage.getItem("token"), 'base64').toString('binary').split("-")[1];
+    console.log("user id extracted from token: " + userId);
+    
+    for (const notification of boardToDisplay.notifications) {
+        if (notification != null && notification.userId == userId) {
+            alert(notification.message);
         }
     }
 }
@@ -45,14 +53,7 @@ const displayStatusesList = (boardToDisplay) => {
     var statusesSelect = document.getElementById('statuses-select')
     let index = 0;
 
-    // console.log("boardToDisplay");
-    // console.log(boardToDisplay);
-    // console.log("statusesSelect");
-    // console.log(statusesSelect);
-
     $("#statuses-select").empty();
-    // console.log("empty statusesSelect");
-    // console.log(statusesSelect);
 
     for (const status of boardToDisplay.statuses) {
         onClickDeleteStatus(status,boardToDisplay);
@@ -91,7 +92,11 @@ const displayItems = (boardToDisplay) => {
             for (const item of items) {
                 if (item.type == null){item.type = "none"}
                 $(`#div-${validStatusString}`).append(ItemHtml(item));
-                
+
+                $(`#edit-${item.id}`).on("click", async () => {
+                    window.history.pushState({ board: boardToDisplay, item: item }, "", "/edit-item");
+                    urlLocationHandler();
+                })
             }
 
             onClickDeleteStatus(validStatusString, boardToDisplay);    
@@ -157,7 +162,7 @@ const ItemHtml = (item) => {
     <b>Title</b>: ${item.title} </br>
     <b>Type:</b> ${item.type} </br>
     ${item.description} </br>
-              <span><button id="open-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px"> Edit</button>
+              <span><button id="edit-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px"> Edit</button>
               <button id="delete-${item.id}" class="btn btn-danger btn-board-view" >Delete</button></span>
           </div>`;
 };
