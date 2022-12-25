@@ -54,7 +54,8 @@ const initCreateItem = (key) => {
         headers: {
           "Content-Type": "application/json",
           Authorization: key.token.data,
-          boardId: boardId
+          boardId: boardId,
+          action: "CREATE_ITEM"
         },
       }).then((response) => {
         return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
