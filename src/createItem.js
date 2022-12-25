@@ -23,7 +23,7 @@ const initCreateItem = (key) => {
   $("#status-name").html("Under status: '" + status + "'");
 
   displayTypesList(board);
-  displayStatusItemsList(board);
+  displayParentItemsList(board);
 
   $("#create-button").on("click", () => {
     let title = $("#title").val();
@@ -96,7 +96,7 @@ const displayTypesList = (board) => {
   }
 }
 
-const displayStatusItemsList = (board) => {
+const displayParentItemsList = (board) => {
   var itemsSelect = document.getElementById('items-select')
   $("#items-select").empty();
 

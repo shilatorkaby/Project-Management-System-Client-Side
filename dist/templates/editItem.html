@@ -1,0 +1,58 @@
+<link rel="stylesheet" type="text/css" href="../styles/editItem.css" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet" />
+
+<div class="main">
+  <div class="edit_item">
+    <button id="close-icon">X</button>
+
+    <label for="chk" aria-hidden="true" id="page-title-label"> Edit Item</label>
+
+    <div class=inline-div>
+      <input type="text" id="set-title-input" placeholder="title" />
+      <button id="set-title-btn">set title</button>
+    </div>
+
+    <div class=inline-div>
+      <input type="text" id="set-description-input" placeholder="description" />
+      <button id="set-description-btn">set description</button>
+    </div>
+
+    <div class=inline-div>
+      <select name="set-type" id="set-type-select" class="settings-select" placeholder="choose type"></select>
+      <button id="set-type-btn">set type</button>
+    </div>
+
+    <div class=inline-div>
+      <select name="set-status" id="set-status-select" class="settings-select" placeholder="choose status"></select>
+      <button id="set-status-btn">set status</button>
+    </div>
+
+    <div class=inline-div>
+      <select name="set-parent" id="set-parent-select" class="settings-select" placeholder="select parent item"></select>
+      <button id="set-parent-btn">set parent</button>
+    </div>
+
+    <div class=inline-div>
+      <select name="set-importance" id="set-importance-select" class="settings-select" placeholder="select importance">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+        <option value="4">5</option>
+      </select>
+      <button id="set-importance-btn">set importance</button>
+    </div>
+
+    <div class=inline-div>
+      <input type="date" id="item-due-date" name="due-date" value="" min="2023-01-01" max="2024-01-01"  onfocus="this.min=new Date().toISOString().split('T')[0];
+      this.max=new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString().split('T')[0]">
+      <!-- <input type="date" id="item-due-date" name="due-date" value="" min="2023-01-01" max="2024-01-01"> -->
+      <button id="set-due-date-btn">set due date</button>
+    </div>
+
+    <div>
+      <p id="edit-item-alert"></p>
+    </div>
+
+  </div>
+</div>
