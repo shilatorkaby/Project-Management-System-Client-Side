@@ -95,7 +95,7 @@ const displayItems = (boardToDisplay) => {
             }
 
             onClickDeleteStatus(validStatusString, boardToDisplay);    
-            onClickCreateItem(validStatusString,boardToDisplay);       
+            onClickCreateItem(validStatusString, boardToDisplay);       
 
         }
     }
@@ -110,12 +110,13 @@ const onClickSettingBoardButton = async (boardToDisplay) => {
 
 }
 
-const onClickDeleteStatus = (status,boardToDisplay) => {
+const onClickDeleteStatus = (status, boardToDisplay) => {
+    let validStatusString = status.replace('-', ' ')
+
     $(`#delete-${status}`).on("click", async () => {
-        fetch(serverAddress + "/board/removeStatus?status=" + status, {
+        fetch(serverAddress + "/board/removeStatus?status=" + validStatusString, {
             method: "DELETE",
             headers: {
-                // "Content-Type": "application/json",
                 Authorization: token,
                 boardId: boardToDisplay.id
             },
@@ -131,7 +132,7 @@ const onClickDeleteStatus = (status,boardToDisplay) => {
 
 const onClickCreateItem = (status, boardToDisplay) => {
 $(`#add-item-${status}`).on("click", () => {    
-    window.history.pushState({status,board : boardToDisplay}, "", "/create-item");
+    window.history.pushState({status, board : boardToDisplay}, "", "/create-item");
     urlLocationHandler();
   })
 }
