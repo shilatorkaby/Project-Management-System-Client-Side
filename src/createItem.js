@@ -13,7 +13,7 @@ const initCreateItem = (key) => {
   console.log("arrived to item create");
 
   board = history.state.board;
-  console.log(history.state.board)
+  console.log(board.authorizedUsers);
 
   boardId = board.id;
   status = history.state.status;
@@ -24,8 +24,11 @@ const initCreateItem = (key) => {
 
   displayTypesList(board);
   displayStatusItemsList(board);
+  displayAuthUsersEmailsList(board.authorizedUsers);
   
+
   $("#create-button").on("click", () => {
+
     let title = $("#title").val();
     let type = $("#types-select :selected").val();
     let parentId = $("#items-select :selected").val();
@@ -33,6 +36,7 @@ const initCreateItem = (key) => {
     let importance = $("#importance-select :selected").val();
     let dueDate = $("#item-due-date").val();
     let description = $("#description").val();
+    let assignedToId = $("#users-select :selected").val();
 
     function replacer(key, value) {
       if (value == "") {
@@ -41,7 +45,7 @@ const initCreateItem = (key) => {
       return value;
     }
 
-    let item = { title: title, status: status, type: type, parentId: parentId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
+    let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
     console.log(JSON.stringify(item, replacer));
 
     if (title.length != 0) {
@@ -112,6 +116,22 @@ const displayStatusItemsList = (board) => {
       opt.text = item.title;
       itemsSelect.appendChild(opt);
     }
+  }
+}
+
+const displayAuthUsersEmailsList = (authUsers) => {
+  var usersSelect = document.getElementById('users-select')
+  $("#users-select").empty();
+
+  var opt = document.createElement('option');
+  opt.text = "no-assign";
+  opt.value = "";
+  usersSelect.appendChild(opt);
+  for (const authUser of authUsers) {     
+    var opt = document.createElement('option');
+    opt.value = authUser.id;
+    opt.text = authUser.email;
+    usersSelect.appendChild(opt);    
   }
 }
 
