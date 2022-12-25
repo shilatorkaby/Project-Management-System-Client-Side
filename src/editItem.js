@@ -105,7 +105,7 @@ const onSetTitleClick = (board) => {
           action: "SET_ITEM_TITLE"
         },
       }).then((response) => {
-        return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+        return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
       }).then((updatedBoard) => {
         if (updatedBoard != null) {
           console.log("item's title was updated successfully");
@@ -136,7 +136,7 @@ const onSetDescriptionClick = (board) => {
         action: "SET_ITEM_DESCRIPTION"
       },
     }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's description was updated successfully");
@@ -164,7 +164,7 @@ const onSetTypeClick = (board) => {
         action: "SET_ITEM_TYPE"
       },
     }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's type was updated successfully");
@@ -192,7 +192,7 @@ const onSetStatusClick = (board) => {
         action: "SET_ITEM_STATUS"
       },
     }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's status was updated successfully");
@@ -200,6 +200,7 @@ const onSetStatusClick = (board) => {
         urlLocationHandler();
       }
     }).catch(error => {
+      console.log(error);
       document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
     });
   })
@@ -219,8 +220,8 @@ const onSetParentClick = (board) => {
         boardId: board.id,
         action: "SET_ITEM_PARENT"
       },
-    }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+    }).then(response => {
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's parent was updated successfully");
@@ -228,6 +229,7 @@ const onSetParentClick = (board) => {
         urlLocationHandler();
       }
     }).catch(error => {
+      console.log(error);
       document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
     });
   })
@@ -249,7 +251,7 @@ const onSetImportanceClick = (board) => {
         action: "SET_ITEM_IMPORTANCE"
       },
     }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's importance was updated successfully");
@@ -277,7 +279,7 @@ const onSetDueDateClick = (board) => {
         action: "SET_ITEM_DUE_DATE"
       },
     }).then((response) => {
-      return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
+      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's due date was updated successfully");
