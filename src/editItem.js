@@ -30,7 +30,7 @@ const initEditItem = (key) => {
 
 const onClose = () => {
   $("#close-icon").on("click", () => {
-    window.history.pushState({}, "", "/boardView");
+    window.history.pushState({board : board}, "", "/board-view");
     urlLocationHandler();
   })
 }
