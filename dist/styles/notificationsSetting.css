@@ -91,6 +91,10 @@ button:hover{
   
 }
 
+#due-date-option{
+	width: fit-content;
+}
+
 #title{
 	width: 100%;
 }
