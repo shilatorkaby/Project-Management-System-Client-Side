@@ -7,6 +7,9 @@ import { initBoardView } from "./boardView";
 import { initNotificationsSettings } from "./notificationsSettings";
 import { initCreateItem } from "./createItem";
 import { initFilterSettings } from "./filterSetting";
+import { initEditItem } from "./editItem";
+import { initItemView } from "./itemView";
+import { Buffer } from "buffer";
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -71,39 +74,58 @@ const urlRoutes = {
     title: "Create Board | " + urlPageTitle,
     init: () => {
       initCreateBoard(key);
-    }},
+    }
+  },
   "/board-view": {
     template: "templates/boardView.html",
     title: "Board View | " + urlPageTitle,
     init: () => {
       initBoardView(key);
-    }}, 
-    "/board-setting": {
+    }
+  },
+  "/board-setting": {
     template: "templates/boardSetting.html",
     title: "Board Settings | " + urlPageTitle,
     init: () => {
       initBoardSetting(key);
-    }},
-    
-    "/create-item": {
+    }
+  },
+  "/create-item": {
     template: "templates/createItem.html",
     title: "Create Item | " + urlPageTitle,
     init: () => {
       initCreateItem(key);
-    }},  
-    "/notifications-settings": {
-      template: "templates/notificationsSettings.html",
-      title: "Notifications Settings | " + urlPageTitle,
-      init: () => {
-        initNotificationsSettings(key);
-      }}, 
-      "/filter-setting": {
-      template: "templates/filterSetting.html",
-      title: "Filter Setting | " + urlPageTitle,
-      init: () => {
-        initFilterSettings(key);
-      }},
- };
+    }
+  },
+  "/notifications-settings": {
+    template: "templates/notificationsSettings.html",
+    title: "Notifications Settings | " + urlPageTitle,
+    init: () => {
+      initNotificationsSettings(key);
+    }
+  },
+  "/filter-setting": {
+    template: "templates/filterSetting.html",
+    title: "Filter Setting | " + urlPageTitle,
+    init: () => {
+      initFilterSettings(key);
+    }
+  },
+  "/edit-item": {
+    template: "templates/editItem.html",
+    title: "Edit Item | " + urlPageTitle,
+    init: () => {
+      initEditItem(key);
+    }
+  },
+  "/item-view": {
+    template: "templates/itemView.html",
+    title: "Item View | " + urlPageTitle,
+    init: () => {
+      initItemView(key);
+    }
+  },
+};
 
 // create a function that watches the url and calls the urlLocationHandler
 const urlRoute = async (event) => {
@@ -139,4 +161,14 @@ const urlLocationHandler = async () => {
     .setAttribute("content", route.description);
 };
 
-export { initRouter, urlLocationHandler };
+const notify = (notifications) => {
+  let userId = Buffer.from(key.token.data, 'base64').toString('binary').split("-")[1];
+
+  for (const notification of notifications) {
+      if (notification != null && notification.userId == userId) {
+          alert(notification.message);
+      }
+  }
+}
+
+export { initRouter, urlLocationHandler, notify };

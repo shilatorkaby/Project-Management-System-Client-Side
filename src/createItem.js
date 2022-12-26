@@ -13,18 +13,19 @@ const initCreateItem = (key) => {
   console.log("arrived to item create");
 
   board = history.state.board;
-  console.log(history.state.board)
-
   boardId = board.id;
   status = history.state.status;
+  status = status.replace("-", " ");
   token = key.token.data;
 
-  $("#status-name").html("Under status: '" + status+"'");
+  $("#status-name").html("Under status: '" + status + "'");
 
   displayTypesList(board);
-  displayStatusItemsList(board);
+  displayParentItemsList(board);
+  displayAuthUsersEmailsList(board.authorizedUsers);
 
   $("#create-button").on("click", () => {
+
     let title = $("#title").val();
     let type = $("#types-select :selected").val();
     let parentId = $("#items-select :selected").val();
@@ -32,6 +33,7 @@ const initCreateItem = (key) => {
     let importance = $("#importance-select :selected").val();
     let dueDate = $("#item-due-date").val();
     let description = $("#description").val();
+    let assignedToId = $("#users-select :selected").val();
 
     function replacer(key, value) {
       if (value == "") {
@@ -40,7 +42,7 @@ const initCreateItem = (key) => {
       return value;
     }
 
-    let item = { title: title, status: status, type: type, parentId: parentId, creatorId: creatorId, assignedToId: creatorId, importance: importance, dueDate: dueDate, description: description };
+    let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
     console.log(JSON.stringify(item, replacer));
 
     if (title.length != 0) {
@@ -52,7 +54,8 @@ const initCreateItem = (key) => {
         headers: {
           "Content-Type": "application/json",
           Authorization: key.token.data,
-          boardId: boardId
+          boardId: boardId,
+          action: "CREATE_ITEM"
         },
       }).then((response) => {
         return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
@@ -95,7 +98,7 @@ const displayTypesList = (board) => {
   }
 }
 
-const displayStatusItemsList = (board) => {
+const displayParentItemsList = (board) => {
   var itemsSelect = document.getElementById('items-select')
   $("#items-select").empty();
 
@@ -105,15 +108,28 @@ const displayStatusItemsList = (board) => {
   itemsSelect.appendChild(opt);
 
   for (const status of board.statuses) {
-  for (const item of board.items[status]) {
+    for (const item of board.items[status]) {
       var opt = document.createElement('option');
       opt.value = item.id;
       opt.text = item.title;
       itemsSelect.appendChild(opt);
-
-
+    }
   }
+}
 
+const displayAuthUsersEmailsList = (authUsers) => {
+  var usersSelect = document.getElementById('users-select')
+  $("#users-select").empty();
+
+  var opt = document.createElement('option');
+  opt.text = "no-assign";
+  opt.value = "";
+  usersSelect.appendChild(opt);
+  for (const authUser of authUsers) {
+    var opt = document.createElement('option');
+    opt.value = authUser.id;
+    opt.text = authUser.email;
+    usersSelect.appendChild(opt);
   }
 }
 

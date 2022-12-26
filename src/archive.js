@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import { serverAddress } from "./constants";
 import { urlLocationHandler } from "./router";
+import { openConnection } from "./sockets";
 
 
 const initArchive = async (key) => {
@@ -25,6 +26,8 @@ const initArchive = async (key) => {
 
       if (boards != null) {
         for (const board of boards.data) {
+          openConnection(boards.data);
+
           $("#content").append(BoardHtml(board));
           console.log(board);
 
@@ -64,7 +67,6 @@ const initArchive = async (key) => {
     urlLocationHandler();
   })
 };
-
 
 const BoardHtml = (board) => {
   return `<div id="${board.id}" class="col-3">

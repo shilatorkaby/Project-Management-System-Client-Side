@@ -37,15 +37,15 @@ label{
 input{
 	width: 60px;
 	height: 40px;
-
 	background: #e0dede;
-	/* justify-content: center; */
 	display: flex;
 	margin: 0px 0px 10px;
-	/* padding: 10px; */
 	border: none;
 	outline: none;
 	border-radius: 5px;
+}
+#due-date-option{
+	width: fit-content;
 }
 .filter-input{
 	width: 30px;

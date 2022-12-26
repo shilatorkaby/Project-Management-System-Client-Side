@@ -1,4 +1,4 @@
-body{
+body {
 	margin: 0;
 	padding: 0;
 	display: flex;
@@ -7,7 +7,8 @@ body{
 	min-height: 100vh;
 	font-family: 'Jost', sans-serif;
 }
-.main{
+
+.main {
 	width: 500px;
 	overflow: hidden;
 	border-radius: 10px;
@@ -15,16 +16,23 @@ body{
 	font-size: small;
 	margin: auto;
 }
-#chk{
-	display: none;
-}
-.new_file{
+
+.item-view {
 	position: relative;
 	width:100%;
 	height: 100%;
 	margin-right: 90px;
 }
-label{
+
+#chk {
+	display: none;
+}
+
+.inline-div {
+	display: flex;
+}
+
+#page-title-label {
 	color: rgb(83, 113, 170);
 	font-size: 2.3em;
 	justify-content: center;
@@ -34,17 +42,19 @@ label{
 	cursor: pointer;
 	transition: .5s ease-in-out;
 }
-input{
+
+input {
 	width: 60%;
 	height: 40px;
 	background: #e0dede;
 	display: flex;
-	margin: 0px 0px 10px;
+	margin: 0px 0px 10px;	
 	border: none;
 	outline: none;
 	border-radius: 5px;
 }
-button{
+
+button {
 	width: 60%;
 	height: 40px;
 	margin: 0px auto; 
@@ -52,7 +62,7 @@ button{
 	display: block;
 	color: #fff;
 	background: rgb(83, 113, 170);
-	font-size: 1.4em;
+	font-size: 1.4em;	
 	outline: none;
 	border: none;
 	border-radius: 5px;
@@ -63,19 +73,9 @@ button{
 button:hover{
 	background: rgb(173, 196, 239);
 }
-select{
-	width: 90px;
-}
+
 #chk:checked ~ .signup label{
 	transform: scale(.6);
-}
-
-#inline-div{
-	display: flex;  
-}
-
-#title{
-	width: 100%;
 }
 
 #close-icon{
@@ -84,7 +84,7 @@ select{
 	height: 30px;
 }
 
-#board-settings-alert {
-	text-align:center; 
-	color: red;
- }
+#item-view-alert{
+   text-align:center; 
+   color: red;
+}

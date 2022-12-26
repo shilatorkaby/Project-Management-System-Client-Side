@@ -13,10 +13,10 @@ let board;
 let token;
 const initFilterSettings = async (key) => {
 
+
     board = history.state.board;
     token = key.token.data;
     console.log(board);
-
 
 
     displayStatusesList(board)
@@ -60,6 +60,7 @@ const displayStatusesList = (boardToDisplay) => {
                     filterRequest.get(name).push(`${name}-${status}-option`);
                 }
                 break;
+                break;
             }
             case "Type": {
                 if (boardToDisplay.types.length > 0) {
@@ -73,6 +74,7 @@ const displayStatusesList = (boardToDisplay) => {
                 }
                 break;
             }
+            
             case "Importance": {
                 filterRequest.set(name, []);
                 $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
@@ -96,6 +98,7 @@ const onClickCloseBtn = () => {
         urlLocationHandler();
     });
 }
+
 const createFilterRequest = () => {
 
     console.log("on createFilterRequest method");

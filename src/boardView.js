@@ -2,90 +2,45 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
-import { join } from "./sockets";
 
-// let board;
 let token;
 
 const initBoardView = async (key) => {
     let board = history.state.board;
     token = key.token.data;
 
-    loadBoard(board);
-    join();
+    localStorage.setItem("boardId", board.id);
+    localStorage.setItem("token", token);
 
+    $("#exit-icon").on("click", () => {
+        window.history.pushState({}, "", "/archive");
+        urlLocationHandler();
+    })
+
+    loadBoard(board);
 }
 
 const loadBoard = (boardToDisplay) => {
-    console.log(boardToDisplay);
-
-    displayBoardTitle(boardToDisplay);
-    displayStatusesList(boardToDisplay);
-    displayTypesList(boardToDisplay);
-    displayItems(boardToDisplay);
-
-    onClickSettingBoardButton(boardToDisplay);
-    onClickFilterBoardButton(boardToDisplay);
-
-
-    notify(boardToDisplay);
-}
-
-const onClickFilterBoardButton = (board) =>{
-    $(`#filter-setting-btn`).on("click", async () => {
-    window.history.pushState({ board: board }, "", "/filter-setting");
-    urlLocationHandler();
-    })
-}
-
-const notify = (boardToDisplay) => {
-    for (const notifications of boardToDisplay.notifications) {
-        if (notifications != null) {
-            alert(notifications.message);
-        }
+    if (localStorage.getItem("boardId") != null && boardToDisplay.id == localStorage.getItem("boardId")) {
+        console.log(boardToDisplay);
+    
+        displayBoardTitle(boardToDisplay);
+        displayItems(boardToDisplay);
+    
+        onClickSettingBoardButton(boardToDisplay);
+        onClickFilterBoardButton(boardToDisplay);
     }
+}
+
+const onClickFilterBoardButton = (board) => {
+    $(`#filter-setting-btn`).on("click", async () => {
+        window.history.pushState({ board: board }, "", "/filter-setting");
+        urlLocationHandler();
+    })
 }
 
 const displayBoardTitle = (boardToDisplay) => {
     $("#board-title").html(boardToDisplay.title);
-}
-
-const displayStatusesList = (boardToDisplay) => {
-    var statusesSelect = document.getElementById('statuses-select')
-    let index = 0;
-
-    // console.log("boardToDisplay");
-    // console.log(boardToDisplay);
-    // console.log("statusesSelect");
-    // console.log(statusesSelect);
-
-    $("#statuses-select").empty();
-    // console.log("empty statusesSelect");
-    // console.log(statusesSelect);
-
-    for (const status of boardToDisplay.statuses) {
-        onClickDeleteStatus(status,boardToDisplay);
-        var opt = document.createElement('option');
-        opt.value = index;
-        opt.text = status;
-        statusesSelect.appendChild(opt);
-        index += 1;
-    }
-}
-
-const displayTypesList = (boardToDisplay) => {
-    var typesSelect = document.getElementById('types-select')
-    let index = 0;
-    
-    $("#types-select").empty();
-
-    for (const type of boardToDisplay.types) {
-        var opt = document.createElement('option');
-        opt.value = index;
-        opt.text = type;
-        typesSelect.appendChild(opt);
-        index += 1;
-    }
 }
 
 const displayItems = (boardToDisplay) => {
@@ -98,16 +53,45 @@ const displayItems = (boardToDisplay) => {
             $("#items-div").append(StatusHtml(validStatusString));
 
             for (const item of items) {
-                if (item.type == null){item.type = "none"}
+                if (item.type == null) { item.type = "none" }
                 $(`#div-${validStatusString}`).append(ItemHtml(item));
-                
+
+                $(`#open-${item.id}`).on("click", async () => {
+                    window.history.pushState({ board: boardToDisplay, item: item }, "", "/item-view");
+                    urlLocationHandler();
+                })
+                $(`#edit-${item.id}`).on("click", async () => {
+                    window.history.pushState({ board: boardToDisplay, item: item }, "", "/edit-item");
+                    urlLocationHandler();
+                })
+                $(`#delete-${item.id}`).on("click", async () => {
+                    onClickDeleteItemButton(item, boardToDisplay);
+                })
             }
 
-            onClickDeleteStatus(validStatusString, boardToDisplay);    
-            onClickCreateItem(validStatusString,boardToDisplay);       
+            onClickDeleteStatus(validStatusString, boardToDisplay);
+            onClickCreateItem(validStatusString, boardToDisplay);
 
         }
     }
+}
+
+const onClickDeleteItemButton = async (item, board) => {
+    fetch(serverAddress + "/board/removeItem?itemId=" + item.id, {
+        method: "DELETE",
+        headers: {
+            Authorization: token,
+            boardId: board.id
+        },
+    }).then((response) => {
+        return response.ok ? response.json() : response.json().then(res => { throw new Error(res.message) });
+    }).then((updatedBoard) => {
+        if (updatedBoard != null) {
+            console.log("item was successfully deleted");
+        }
+    }).catch(error => {
+        alert(`Error: ${error}`);
+    });
 }
 
 const onClickSettingBoardButton = async (boardToDisplay) => {
@@ -119,20 +103,18 @@ const onClickSettingBoardButton = async (boardToDisplay) => {
 
 }
 
-
-const onClickDeleteStatus = (status,boardToDisplay) => {
-
-
+const onClickDeleteStatus = (status, boardToDisplay) => {
+    let validStatusString = status.replace('-', ' ')
 
     $(`#delete-${status}`).on("click", async () => {
-
-        fetch(serverAddress + "/board/removeStatus?status=" + status, {
+        fetch(serverAddress + "/board/removeStatus?status=" + validStatusString, {
             method: "DELETE",
             headers: {
-                // "Content-Type": "application/json",
                 Authorization: token,
                 boardId: boardToDisplay.id
             },
+        }).then((response) => {
+            return response.status == 200 ? response.json() : null;
         }).then((updatedBoard) => {
             if (updatedBoard != null) {
                 console.log("update value:")
@@ -144,10 +126,10 @@ const onClickDeleteStatus = (status,boardToDisplay) => {
 }
 
 const onClickCreateItem = (status, boardToDisplay) => {
-$(`#add-item-${status}`).on("click", () => {    
-    window.history.pushState({status,board : boardToDisplay}, "", "/create-item");
-    urlLocationHandler();
-  })
+    $(`#add-item-${status}`).on("click", () => {
+        window.history.pushState({ status, board: boardToDisplay }, "", "/create-item");
+        urlLocationHandler();
+    })
 }
 
 const StatusHtml = (status) => {
@@ -170,7 +152,8 @@ const ItemHtml = (item) => {
     <b>Title</b>: ${item.title} </br>
     <b>Type:</b> ${item.type} </br>
     ${item.description} </br>
-              <span><button id="open-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px"> Edit</button>
+              <span><button id="open-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px">Open</button>
+              <button id="edit-${item.id}" class="btn btn-success btn-board-view" style = "background:rgb(76, 183, 163); width: 75px">Edit</button>
               <button id="delete-${item.id}" class="btn btn-danger btn-board-view" >Delete</button></span>
           </div>`;
 };
