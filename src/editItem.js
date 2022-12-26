@@ -139,7 +139,7 @@ const onSetTitleClick = (board) => {
           urlLocationHandler();
         }
       }).catch(error => {
-        document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+        document.getElementById("edit-item-alert").innerHTML = `${error}`;
       });
     } else {
       document.getElementById("edit-item-alert").innerHTML = "Title cannot be empty";
