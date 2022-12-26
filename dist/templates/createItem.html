@@ -22,21 +22,28 @@
       <select name="items" id="items-select"></select>
     </div>
 
-    <div id=inline-div>
-      <label class="field-label" for="importance">Select importance</label>
-      <select name="importance" id="importance-select">
-        <option value="0">1</option>
-        <option value="1">2</option>
-        <option value="2">3</option>
-        <option value="3">4</option>
-        <option value="4">5</option>
-      </select>
+    <div id = inline-div>
+    <label class="field-label" for="importance">Select importance</label>
+    <select name="importance" id="importance-select">
+      <option value="0">1</option>
+      <option value="1">2</option>
+      <option value="2">3</option>
+      <option value="3">4</option>
+      <option value="4">5</option>
+    </select> 
+    </div>  
+
+    <div id = inline-div>
+      <label class="field-label" for="dueDate">Due date:</label>
+      <input type="date" id="item-due-date" name="due-date" value="" min="2023-01-01" max="2024-01-01"  onfocus="this.min=new Date().toISOString().split('T')[0]; 
+      this.max=new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString().split('T')[0]">
     </div>
 
-    <div id=inline-div>
-      <label class="field-label" for="dueDate">Due date:</label>
-      <input type="date" id="item-due-date" name="due-date" value="" min="2023-01-01" max="2024-01-01">
-    </div>
+    <div id = inline-div>
+      <label class="field-label" for="users">Assign to:</label>
+      <select name="users" id="users-select"></select>
+    </div>  
+
     <button type="click" id="create-button" class="new_file_btn">Create</button>
     <div>
       <p id="create-item-alert"></p>
