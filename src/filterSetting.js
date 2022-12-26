@@ -141,7 +141,10 @@ const onClickFilterBtn = () => {
             return response.status == 200 ? response.json() : null;
         }).then((updatedBoard) => {
             if (updatedBoard != null) {
-                console.log(updatedBoard);
+                console.log(updatedBoard.data);
+                board = updatedBoard.data;
+                window.history.pushState({ board: board }, "", "/board-view");
+                urlLocationHandler();
             }
         })
     });
