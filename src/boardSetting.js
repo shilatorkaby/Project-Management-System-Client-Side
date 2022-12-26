@@ -77,7 +77,7 @@ const initBoardSetting = async (key) => {
                     boardId: boardId,
                 },
             }).then((response) => {
-                return response.status == 200 ? response.json() : null;
+                return response.ok ? response.json() : response.json().then(res => { throw new Error(res.message)});
             }).then((updatedBoard)=> {
                 if (updatedBoard != null){
                     console.log("update value:")
@@ -87,7 +87,9 @@ const initBoardSetting = async (key) => {
                     window.history.pushState({board: board}, "", "/board-view");
                     urlLocationHandler();
                 }
-            })
+            }).catch(error => {
+                document.getElementById("board-settings-alert").innerHTML = `${error}`;
+            });
         }
     });  
 }
@@ -138,7 +140,7 @@ const updateValue = (value, path) => {
                 boardId: boardId,
             },
         }).then((response) => {
-            return response.status <= 204 ? response.json() : null;
+            return response.ok ? response.json() : response.json().then(res => { throw new Error(res.message)});
         }).then((updatedBoard) => {
             if (updatedBoard != null) {
                 console.log("update value:")
@@ -148,7 +150,9 @@ const updateValue = (value, path) => {
                 window.history.pushState({board: board}, "", "/board-view");
                 urlLocationHandler();
             }
-        })
+        }).catch(error => {
+            document.getElementById("board-settings-alert").innerHTML = `${error}`;
+        });
     }
 }
 

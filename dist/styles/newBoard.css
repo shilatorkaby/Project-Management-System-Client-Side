@@ -83,3 +83,8 @@ select{
 	width: 40px;
 	height: 30px;
 }
+
+#board-settings-alert {
+	text-align:center; 
+	color: red;
+ }

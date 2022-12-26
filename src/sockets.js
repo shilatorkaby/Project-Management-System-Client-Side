@@ -2,6 +2,7 @@ import * as SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
 import { serverAddress } from "./constants";
 import { loadBoard } from "./boardView";
+import { notify } from "./router";
 
 
 var stompClient;
@@ -10,25 +11,25 @@ const socketFactory = () => {
   return new SockJS(serverAddress + "/ws");
 };
 
-const join = () => {
-    openConnection();
-};
 
-const openConnection = () => {
+const openConnection = (userBoards) => {
     console.log("on openConnection");
 
     const socket = socketFactory();
     stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, onJoined);
+    stompClient.connect({}, () => onConnected(userBoards));
 };
 
-const onJoined = () => {
-    stompClient.subscribe("/topic/updates", onBoardResponseReceived);
+const onConnected = (userBoards) => {
+    for (const board of userBoards) {
+        stompClient.subscribe(`/topic/notifications-${board.id}`, onNotificationResponseReceived);
+        stompClient.subscribe(`/topic/updates-${board.id}`, onBoardResponseReceived);
+    }
 }
 
 const onBoardResponseReceived = (payload) => {
-    console.log("on onBoardResponseReceived");
+    console.log("BoardResponse was received");
 
     var message = JSON.parse(payload.body);
     console.log(message);
@@ -36,5 +37,14 @@ const onBoardResponseReceived = (payload) => {
     loadBoard(message);
 };
 
+const onNotificationResponseReceived = (payload) => {
+    console.log("NotificationResponse was received");
+    
+    var message = JSON.parse(payload.body);
+    console.log(message);
 
-export { join };
+    notify(message);
+}
+
+
+export { openConnection };

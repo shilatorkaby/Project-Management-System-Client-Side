@@ -9,6 +9,7 @@ import { initCreateItem } from "./createItem";
 import { initFilterSettings } from "./filterSetting";
 import { initEditItem } from "./editItem";
 import { initItemView } from "./itemView";
+import { Buffer } from "buffer";
 
 const initRouter = () => {
   // create document click that watches the nav links only
@@ -160,4 +161,14 @@ const urlLocationHandler = async () => {
     .setAttribute("content", route.description);
 };
 
-export { initRouter, urlLocationHandler };
+const notify = (notifications) => {
+  let userId = Buffer.from(key.token.data, 'base64').toString('binary').split("-")[1];
+
+  for (const notification of notifications) {
+      if (notification != null && notification.userId == userId) {
+          alert(notification.message);
+      }
+  }
+}
+
+export { initRouter, urlLocationHandler, notify };
