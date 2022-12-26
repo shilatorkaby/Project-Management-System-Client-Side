@@ -33,18 +33,12 @@ const displayStatusesList = (boardToDisplay) => {
         // $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
 
         switch(name) {
-            case "Creator":
-              // code block
-              break;
             case "Assign to":
               // code block
               break;  
-            case "Due to date":
+            case "Due date":
             // code block
             break;
-            case "Parent Item":
-              // code block
-              break;  
             case "Status": {
                 if (boardToDisplay.statuses.length > 0){
                     $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
@@ -54,8 +48,8 @@ const displayStatusesList = (boardToDisplay) => {
                     $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name,status));
                     console.log(status);
                 }
-            }
             break;
+                }
             case "Type": {
                 if (boardToDisplay.types.length > 0){
                     $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
@@ -65,8 +59,8 @@ const displayStatusesList = (boardToDisplay) => {
                         $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name,type));
                         console.log(type);
                     }
+                    break;
                 }
-                break;
             case "Importance": {
                 $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
 
