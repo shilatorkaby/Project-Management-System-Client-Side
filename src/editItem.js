@@ -13,30 +13,37 @@ const initEditItem = (key) => {
   item = history.state.item;
   token = key.token.data;
 
-  onClose();
+  onClose(board);
   onSetTitleClick(board);
   onSetDescriptionClick(board);
   onSetTypeClick(board);
   onSetStatusClick(board);
   onSetParentClick(board);
+  onSetUserClick(board);
   onSetImportanceClick(board);
   onSetDueDateClick(board);
 
   displayItemTitle(item);
+  displayItemDescription(item);
   displayTypesList(board);
   displayStatusItemsList(board);
-  displayParentItemsList(board);
+  displayParentItemsList(board, item);
+  displayAuthorizedList(board.authorizedUsers);
 };
 
-const onClose = () => {
+const onClose = (board) => {
   $("#close-icon").on("click", () => {
-    window.history.pushState({board : board}, "", "/board-view");
+    window.history.pushState({board: board}, "", "/board-view");
     urlLocationHandler();
   })
 }
 
 const displayItemTitle = (item) => {
   document.getElementById("set-title-input").placeholder = item.title;
+}
+
+const displayItemDescription = (item) => {
+  document.getElementById("set-description-input").placeholder = item.description;
 }
 
 const displayTypesList = (board) => {
@@ -68,7 +75,7 @@ const displayStatusItemsList = (board) => {
   }
 }
 
-const displayParentItemsList = (board) => {
+const displayParentItemsList = (board, itemToEdit) => {
   var itemsSelect = document.getElementById('set-parent-select')
   $("#set-parent-select").empty();
 
@@ -79,11 +86,30 @@ const displayParentItemsList = (board) => {
 
   for (const status of board.statuses) {
     for (const item of board.items[status]) {
-      var opt = document.createElement('option');
-      opt.value = item.id;
-      opt.text = item.title;
-      itemsSelect.appendChild(opt);
+      if (item.id != itemToEdit.id) {
+        var opt = document.createElement('option');
+        opt.value = item.id;
+        opt.text = item.title;
+        itemsSelect.appendChild(opt);
+      }
     }
+  }
+}
+
+const displayAuthorizedList = (authUsers) => {
+  var usersSelect = document.getElementById('set-user-select')
+  $("#set-user-select").empty();
+
+  var opt = document.createElement('option');
+  opt.text = "none";
+  opt.value = "";
+  usersSelect.appendChild(opt);
+
+  for (const authUser of authUsers) {
+    var opt = document.createElement('option');
+    opt.value = authUser.id;
+    opt.text = authUser.role + ": " + authUser.email;
+    usersSelect.appendChild(opt);
   }
 }
 
@@ -116,7 +142,7 @@ const onSetTitleClick = (board) => {
         document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
       });
     } else {
-      document.getElementById("edit-item-alert").innerHTML = `${error}`;
+      document.getElementById("edit-item-alert").innerHTML = "Title cannot be empty";
     }
   })
 }
@@ -235,6 +261,34 @@ const onSetParentClick = (board) => {
   })
 }
 
+const onSetUserClick = (board) => {
+  $("#set-user-btn").on("click", () => {
+    let userId = document.getElementById("set-user-select").value;
+    let itemRequest = { itemId: item.id, assignedToId: userId };
+
+    fetch(serverAddress + "/board/updateItem", {
+      method: "PATCH",
+      body: JSON.stringify(itemRequest),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+        boardId: board.id,
+        action: "ASSIGN_ITEM"
+      },
+    }).then(response => {
+      return response.ok ? response.json() : response.json().then(res => { throw new Error(res.message)});
+    }).then((updatedBoard) => {
+      if (updatedBoard != null) {
+        console.log("item was successfully assigned to user");
+        window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
+        urlLocationHandler();
+      }
+    }).catch(error => {
+      console.log(error);
+      document.getElementById("edit-item-alert").innerHTML = `${error}`;
+    });
+  })
+}
 
 const onSetImportanceClick = (board) => {
   $("#set-importance-btn").on("click", () => {
