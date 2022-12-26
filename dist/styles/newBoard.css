@@ -37,12 +37,9 @@ label{
 input{
 	width: 60%;
 	height: 40px;
-
 	background: #e0dede;
-	/* justify-content: center; */
 	display: flex;
 	margin: 0px 0px 10px;
-	/* padding: 10px; */
 	border: none;
 	outline: none;
 	border-radius: 5px;
@@ -56,7 +53,6 @@ button{
 	color: #fff;
 	background: rgb(83, 113, 170);
 	font-size: 1.4em;
-	/* margin-top: 30px; */
 	outline: none;
 	border: none;
 	border-radius: 5px;
@@ -67,15 +63,15 @@ button{
 button:hover{
 	background: rgb(173, 196, 239);
 }
-
+select{
+	width: 90px;
+}
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
 
 #inline-div{
-	display: flex;
-	/* justify-content: space-between; */
-  
+	display: flex;  
 }
 
 #title{
@@ -87,3 +83,8 @@ button:hover{
 	width: 40px;
 	height: 30px;
 }
+
+#board-settings-alert {
+	text-align:center; 
+	color: red;
+ }

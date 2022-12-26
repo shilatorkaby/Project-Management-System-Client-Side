@@ -2,14 +2,14 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
-import { Buffer } from 'buffer';
-import { join } from "./sockets";
 
 let token;
 
 const initBoardView = async (key) => {
     let board = history.state.board;
     token = key.token.data;
+
+    localStorage.setItem("boardId", board.id);
     localStorage.setItem("token", token);
 
     $("#exit-icon").on("click", () => {
@@ -18,19 +18,18 @@ const initBoardView = async (key) => {
     })
 
     loadBoard(board);
-    join();
 }
 
 const loadBoard = (boardToDisplay) => {
-    console.log(boardToDisplay);
-
-    displayBoardTitle(boardToDisplay);
-    displayItems(boardToDisplay);
-
-    onClickSettingBoardButton(boardToDisplay);
-    onClickFilterBoardButton(boardToDisplay);
-
-    notify(boardToDisplay);
+    if (localStorage.getItem("boardId") != null && boardToDisplay.id == localStorage.getItem("boardId")) {
+        console.log(boardToDisplay);
+    
+        displayBoardTitle(boardToDisplay);
+        displayItems(boardToDisplay);
+    
+        onClickSettingBoardButton(boardToDisplay);
+        onClickFilterBoardButton(boardToDisplay);
+    }
 }
 
 const onClickFilterBoardButton = (board) => {
@@ -38,16 +37,6 @@ const onClickFilterBoardButton = (board) => {
         window.history.pushState({ board: board }, "", "/filter-setting");
         urlLocationHandler();
     })
-}
-
-const notify = (boardToDisplay) => {
-    let userId = Buffer.from(localStorage.getItem("token"), 'base64').toString('binary').split("-")[1];
-
-    for (const notification of boardToDisplay.notifications) {
-        if (notification != null && notification.userId == userId) {
-            alert(notification.message);
-        }
-    }
 }
 
 const displayBoardTitle = (boardToDisplay) => {
