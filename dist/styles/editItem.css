@@ -66,9 +66,9 @@ input {
 }
 
 button {
-	width: 60%;
+	/* width: 60%; */
 	height: 40px;
-	margin: 0px auto; 
+	margin: 0px 0px 10px 22px; 
 	justify-content: center;
 	display: block;
 	color: #fff;
