@@ -13,10 +13,10 @@ let board;
 let token;
 const initFilterSettings = async (key) => {
 
+
     board = history.state.board;
     token = key.token.data;
     console.log(board);
-
 
 
     displayStatusesList(board)
@@ -24,65 +24,71 @@ const initFilterSettings = async (key) => {
     onClickFilterBtn()
 }
 
-
+const filterRequest = new Map();
 let criteriaNames = ["Assign to", "Due date", "Status", "Type", "Importance"]
 const displayStatusesList = (boardToDisplay) => {
 
     for (let name of criteriaNames) {
-        console.log(name);
-        // $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
-
         switch (name) {
             case "Assign to": {
                 if (boardToDisplay.authorizedUsers.length > 0) {
                     $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
+                    filterRequest.set(name, []);
 
                 }
                 for (let user of boardToDisplay.authorizedUsers) {
                     $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name, user.email));
-                    console.log(status);
+                    filterRequest.get(name).push(`${name}-${user.email}-option`)
                 }
                 break;
             }
             case "Due date": {
                 $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
                 $(`#filter-criteria`).append(dueDateHtml());
+                filterRequest.set(name, "due-date-option");
                 break;
             }
             case "Status": {
                 if (boardToDisplay.statuses.length > 0) {
+                    filterRequest.set(name, []);
                     $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
 
                 }
                 for (let status of boardToDisplay.statuses) {
                     $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name, status));
-                    console.log(status);
+                    console.log(`${name}-${status}-option`);
+                    filterRequest.get(name).push(`${name}-${status}-option`);
                 }
+                break;
                 break;
             }
             case "Type": {
                 if (boardToDisplay.types.length > 0) {
+                    filterRequest.set(name, []);
                     $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
 
                 }
                 for (let type of boardToDisplay.types) {
                     $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name, type));
-                    console.log(type);
+                    filterRequest.get(name).push(`${name}-${type}-option`)
                 }
                 break;
             }
+            
             case "Importance": {
+                filterRequest.set(name, []);
                 $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
 
                 for (let importance of [1, 2, 3, 4, 5]) {
                     $(`#filter-criteria`).append(filterCriteriaOptionsHtml(name, importance));
-                    console.log(importance);
+                    filterRequest.get(name).push(`${name}-${importance}-option`)
                 }
             }
         }
 
     }
-
+    console.log("init map");
+    console.log(filterRequest);
 }
 
 
@@ -92,12 +98,40 @@ const onClickCloseBtn = () => {
         urlLocationHandler();
     });
 }
+
+const createFilterRequest = () => {
+
+    console.log("on createFilterRequest method");
+
+    for (let [criteriaName, values] of filterRequest.entries()) {
+        if (criteriaName == "Due date") {
+            filterRequest.set("Due date",$("#due-date-option").val())
+        } else {
+            for (let check of values) {
+                if(!document.getElementById(check).checked){
+                    filterRequest.set(criteriaName,filterRequest.get(criteriaName).filter(option => option !=check));
+                }else {
+                    filterRequest.set(criteriaName,filterRequest.get(criteriaName).filter(option => option !=check));
+                    filterRequest.get(criteriaName).push(document.getElementById(check).value);
+
+                }
+            }
+        }
+    }
+
+}
+
+
 const onClickFilterBtn = () => {
+
     $(`#filter-btn`).on("click", async () => {
+        createFilterRequest()
+        console.log(filterRequest.get("Assign to"));
+
 
         fetch(serverAddress + "/board/filter", {
             method: "POST",
-            body: JSON.stringify({ status: ["status"] }),
+            body: JSON.stringify({assignedToId: filterRequest.get("Assign to"),dueDate: filterRequest.get("Due Date") , status: filterRequest.get("Status"), type: filterRequest.get("Type"),importance: filterRequest.get("Importance") }),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: token,
@@ -115,8 +149,8 @@ const onClickFilterBtn = () => {
 
 const filterCriteriaOptionsHtml = (CriteriaName, option) => {
     return `<div style = "display: flex;">
-   <input type="checkbox" class = "filter-input" id="in-app-checkbox" name="in-app-checkbox" value="In app">
-    <label for="in-app-checkbox" id="${CriteriaName}-${option}-option"> ${option}</label>
+   <input type="checkbox" class = "filter-input" id="${CriteriaName}-${option}-option" name="in-app-checkbox" value="${option}">
+    <label for="in-app-checkbox" id="${CriteriaName}-${option}-label"> ${option}</label>
     <\div>
 `
 }
