@@ -31,7 +31,7 @@ const loadBoard = (boardToDisplay) => {
 
     onClickSettingBoardButton(boardToDisplay);
     onClickFilterBoardButton(boardToDisplay);
-
+    
 
     notify(boardToDisplay);
 }
