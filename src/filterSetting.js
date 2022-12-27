@@ -22,6 +22,7 @@ const initFilterSettings = async (key) => {
     displayStatusesList(board)
     onClickCloseBtn()
     onClickFilterBtn()
+    onClickCancelFilterBtn()
 }
 
 const filterRequest = new Map();
@@ -134,6 +135,29 @@ const onClickFilterBtn = () => {
             body: JSON.stringify({assignedToId: filterRequest.get("Assign to"),dueDate: filterRequest.get("Due Date") , status: filterRequest.get("Status"), type: filterRequest.get("Type"),importance: filterRequest.get("Importance") }),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: token,
+                boardId: board.id
+            },
+        }).then((response) => {
+            return response.status == 200 ? response.json() : null;
+        }).then((updatedBoard) => {
+            if (updatedBoard != null) {
+                console.log(updatedBoard.data);
+                board = updatedBoard.data;
+                window.history.pushState({ board: board }, "", "/board-view");
+                urlLocationHandler();
+            }
+        })
+    });
+}
+    
+    const onClickCancelFilterBtn = () => {
+
+    $(`#cancel-filter-btn`).on("click", async () => {
+
+        fetch(serverAddress + "/board/getBoardsByBoardId", {
+            method: "GET",
+            headers: {
                 Authorization: token,
                 boardId: board.id
             },

@@ -87,10 +87,19 @@ button:hover{
 
 #inline-div{
 	display: flex;
-	/* justify-content: space-between; */
   
 }
-
+.filter-btn{
+	display: flex;
+	justify-content: space-between;
+	width: 400px;
+	padding: 0px 10px 5px 100px;
+}
+#white-btn{
+	background: #ffffff ;
+	border-radius: 0%;
+	width: 10px;
+}
 #due-date-option{
 	width: fit-content;
 }
