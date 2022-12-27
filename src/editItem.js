@@ -2,7 +2,7 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
-
+import { validateTitle, titleConstraint } from "./validations";
 
 var board;
 var item;
@@ -118,7 +118,7 @@ const onSetTitleClick = (board) => {
     let title = document.getElementById("set-title-input").value;
     let itemRequest = { itemId: item.id, title: title };
 
-    if (title.length > 0) {
+    if (validateTitle) {
       document.getElementById("edit-item-alert").innerHTML = "";
 
       fetch(serverAddress + "/board/updateItem", {
@@ -142,7 +142,8 @@ const onSetTitleClick = (board) => {
         document.getElementById("edit-item-alert").innerHTML = `${error}`;
       });
     } else {
-      document.getElementById("edit-item-alert").innerHTML = "Title cannot be empty";
+      document.getElementById("edit-item-alert").innerHTML = titleConstraint("Item");
+      console.log("Invalid item title input");
     }
   })
 }

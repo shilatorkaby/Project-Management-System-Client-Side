@@ -65,8 +65,7 @@ const onCreateItemClick = (board) => {
     }
 
     let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
-    console.log(JSON.stringify(item, replacer));
-
+    
     if (validateTitle(title)) {
       document.getElementById("create-item-alert").innerHTML = "";
 
