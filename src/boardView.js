@@ -77,7 +77,7 @@ const displayItems = (boardToDisplay) => {
 }
 
 const onClickDeleteItemButton = async (item, board) => {
-    fetch(serverAddress + "/board/removeItem?itemId=" + item.id, {
+    fetch(serverAddress + "/item/removeItem?itemId=" + item.id, {
         method: "DELETE",
         headers: {
             Authorization: token,

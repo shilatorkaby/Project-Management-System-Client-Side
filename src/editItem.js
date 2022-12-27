@@ -153,7 +153,7 @@ const onSetDescriptionClick = (board) => {
     let description = document.getElementById("set-description-input").value;
     let itemRequest = { itemId: item.id, description: description };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
@@ -181,7 +181,7 @@ const onSetTypeClick = (board) => {
     let type = document.getElementById("set-type-select").value.replace("-", " ");
     let itemRequest = { itemId: item.id, type: type };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
@@ -209,7 +209,7 @@ const onSetStatusClick = (board) => {
     let status = document.getElementById("set-status-select").value.replace("-", " ");
     let itemRequest = { itemId: item.id, status: status };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
@@ -267,7 +267,7 @@ const onSetUserClick = (board) => {
     let userId = document.getElementById("set-user-select").value;
     let itemRequest = { itemId: item.id, assignedToId: userId };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
@@ -296,7 +296,7 @@ const onSetImportanceClick = (board) => {
     let importance = document.getElementById("set-importance-select").value;
     let itemRequest = { itemId: item.id, importance: importance };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
@@ -324,7 +324,7 @@ const onSetDueDateClick = (board) => {
     let dueDate = document.getElementById("item-due-date").value;
     let itemRequest = { itemId: item.id, dueDate: dueDate };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {
