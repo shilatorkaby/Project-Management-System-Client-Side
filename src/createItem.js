@@ -48,7 +48,7 @@ const initCreateItem = (key) => {
     if (title.length != 0) {
       document.getElementById("create-item-alert").innerHTML = "";
 
-      fetch(serverAddress + "/board/addItem", {
+      fetch(serverAddress + "/item/addItem", {
         method: "POST",
         body: JSON.stringify(item, replacer),
         headers: {
