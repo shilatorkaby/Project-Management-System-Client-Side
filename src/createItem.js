@@ -94,6 +94,7 @@ const onCreateItemClick = (board) => {
 
     } else {
       document.getElementById("create-item-alert").innerHTML = titleConstraint("Item");
+      console.log("Invalid item title input");
     }
 
   });
