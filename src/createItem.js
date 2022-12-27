@@ -5,7 +5,6 @@ import { serverAddress } from "./constants";
 import { validateTitle, titleConstraint } from "./validations";
 import { Buffer } from 'buffer';
 
-let boardId;
 let token;
 let board;
 let status;
@@ -23,67 +22,8 @@ const initCreateItem = (key) => {
   displayTypesList(board);
   displayParentItemsList(board);
   displayAuthUsersEmailsList(board.authorizedUsers);
-<<<<<<< HEAD
   onCreateItemClick(board);
   onClose(board);
-=======
-
-  $("#create-button").on("click", () => {
-
-    let title = $("#title").val();
-    let type = $("#types-select :selected").val();
-    let parentId = $("#items-select :selected").val();
-    let creatorId = Buffer.from(token, 'base64').toString('binary').split("-")[1];
-    let importance = $("#importance-select :selected").val();
-    let dueDate = $("#item-due-date").val();
-    let description = $("#description").val();
-    let assignedToId = $("#users-select :selected").val();
-
-    function replacer(key, value) {
-      if (value == "") {
-        return undefined
-      }
-      return value;
-    }
-
-    let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
-    console.log(JSON.stringify(item, replacer));
-
-    if (title.length != 0) {
-      document.getElementById("create-item-alert").innerHTML = "";
-
-      fetch(serverAddress + "/item/addItem", {
-        method: "POST",
-        body: JSON.stringify(item, replacer),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: key.token.data,
-          boardId: boardId,
-          action: "CREATE_ITEM"
-        },
-      }).then((response) => {
-        return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
-      }).then((updatedBoard) => {
-        if (updatedBoard != null) {
-          console.log(title + " item created successfully");
-          window.history.pushState({ board: updatedBoard.data }, "", "/board-view");
-          urlLocationHandler();
-        }
-      });
-
-    } else {
-      document.getElementById("create-item-alert").innerHTML = "Item must have title";
-    }
-
-  });
-
-
-  $("#close-icon").on("click", () => {
-    window.history.pushState({ board: board }, "", "/board-view");
-    urlLocationHandler();
-  });
->>>>>>> master
-
 }
 
 const displayTypesList = (board) => {
@@ -163,7 +103,6 @@ const onClose = (board) => {
     urlLocationHandler();
   });
 }
-
 
 const displayParentItemsList = (board) => {
   var itemsSelect = document.getElementById('items-select')
