@@ -26,7 +26,7 @@ const initFilterSettings = async (key) => {
 }
 
 const filterRequest = new Map();
-let criteriaNames = ["Assign to", "Due date", "Status", "Type", "Importance"]
+let criteriaNames = ["Assign to", "DueDate", "Status", "Type", "Importance"]
 const displayStatusesList = (boardToDisplay) => {
 
     for (let name of criteriaNames) {
@@ -43,7 +43,7 @@ const displayStatusesList = (boardToDisplay) => {
                 }
                 break;
             }
-            case "Due date": {
+            case "DueDate": {
                 $(`#filter-criteria`).append(filterCriteriaLabelHtml(name));
                 $(`#filter-criteria`).append(dueDateHtml());
                 filterRequest.set(name, "due-date-option");
@@ -102,8 +102,8 @@ const createFilterRequest = () => {
     console.log("on createFilterRequest method");
 
     for (let [criteriaName, values] of filterRequest.entries()) {
-        if (criteriaName == "Due date") {
-            filterRequest.set("Due date", $("#due-date-option").val())
+        if (criteriaName == "DueDate") {
+            filterRequest.set(criteriaName, $("#due-date-option").val())
         } else {
             for (let check of values) {
                 if (!document.getElementById(check).checked) {
@@ -118,14 +118,16 @@ const createFilterRequest = () => {
 }
 
 const onClickFilterBtn = () => {
-
+    console.log("filterRequest:");
+    console.log(filterRequest)
+    console.log("Due Date from request:");
+    filterRequest.get("DueDate")
     $(`#filter-btn`).on("click", async () => {
         createFilterRequest()
-        console.log(filterRequest.get("Assign to"));
 
         fetch(serverAddress + "/board/filter", {
             method: "POST",
-            body: JSON.stringify({ assignedToId: filterRequest.get("Assign to"), dueDate: filterRequest.get("Due Date"), status: filterRequest.get("Status"), type: filterRequest.get("Type"), importance: filterRequest.get("Importance") }),
+            body: JSON.stringify({ assignedToUser: filterRequest.get("Assign to"), dueDate: filterRequest.get("DueDate"), status: filterRequest.get("Status"), type: filterRequest.get("Type"), importance: filterRequest.get("Importance") }),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: token,
@@ -169,9 +171,13 @@ const onClickCancelFilterBtn = () => {
 }
 
 const filterCriteriaOptionsHtml = (CriteriaName, option) => {
+    let optionToDisplay = option;
+    if (Number.isInteger(option)){
+        optionToDisplay += 1;
+    }
     return `<div style = "display: flex;">
    <input type="checkbox" class = "filter-input" id="${CriteriaName}-${option}-option" name="in-app-checkbox" value="${option}">
-    <label for="in-app-checkbox" id="${CriteriaName}-${option}-label"> ${option}</label>
+    <label for="in-app-checkbox" id="${CriteriaName}-${option}-label"> ${optionToDisplay}</label>
     <\div>`
 }
 
