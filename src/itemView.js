@@ -98,7 +98,7 @@ const onSaveCommentClick = (board, item) => {
     if (content.length > 0) {
       document.getElementById("item-view-alert").innerHTML = "";
 
-      fetch(serverAddress + "/board/addItemComment", {
+      fetch(serverAddress + "/item/addItemComment", {
         method: "PATCH",
         body: JSON.stringify(commentRequest),
         headers: {
