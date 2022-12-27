@@ -118,10 +118,10 @@ const onSetTitleClick = (board) => {
     let title = document.getElementById("set-title-input").value;
     let itemRequest = { itemId: item.id, title: title };
 
-    if (validateTitle) {
+    if (validateTitle(title)) {
       document.getElementById("edit-item-alert").innerHTML = "";
 
-      fetch(serverAddress + "/board/updateItem", {
+      fetch(serverAddress + "/item/updateItem", {
         method: "PATCH",
         body: JSON.stringify(itemRequest),
         headers: {
@@ -238,7 +238,7 @@ const onSetParentClick = (board) => {
     let parentId = document.getElementById("set-parent-select").value;
     let itemRequest = { itemId: item.id, parentId: parentId };
 
-    fetch(serverAddress + "/board/updateItem", {
+    fetch(serverAddress + "/item/updateItem", {
       method: "PATCH",
       body: JSON.stringify(itemRequest),
       headers: {

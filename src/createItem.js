@@ -13,7 +13,7 @@ let status;
 const initCreateItem = (key) => {
   console.log("arrived to item create");
 
-  board = history.state.board;  
+  board = history.state.board;
   status = history.state.status;
   status = status.replace("-", " ");
   token = key.token.data;
@@ -65,7 +65,7 @@ const onCreateItemClick = (board) => {
     }
 
     let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
-    
+
     if (validateTitle(title)) {
       document.getElementById("create-item-alert").innerHTML = "";
 
@@ -79,7 +79,7 @@ const onCreateItemClick = (board) => {
           action: "CREATE_ITEM"
         },
       }).then((response) => {
-        if(response.status === 401){
+        if (response.status === 401) {
           document.getElementById("create-item-alert").innerHTML = "You are unauthorized to create items";
         }
         return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
@@ -101,7 +101,7 @@ const onCreateItemClick = (board) => {
 
 const onClose = (board) => {
   $("#close-icon").on("click", () => {
-    window.history.pushState({board:board}, "", "/board-view");
+    window.history.pushState({ board: board }, "", "/board-view");
     urlLocationHandler();
   });
 }
