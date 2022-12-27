@@ -43,7 +43,9 @@ const displayItemTitle = (item) => {
 }
 
 const displayItemDescription = (item) => {
+  if (item.description != ""){
   document.getElementById("set-description-input").placeholder = item.description;
+  }
 }
 
 const displayTypesList = (board) => {

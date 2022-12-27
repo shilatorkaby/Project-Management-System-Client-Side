@@ -30,6 +30,14 @@ body {
 
 .inline-div {
 	display: flex;
+	/* justify-content: space-between; */
+}
+div{
+	font-size: 15px;
+	padding: 5px 5px 0;
+}
+.div-title{
+	font-weight:bold;
 }
 
 #page-title-label {
@@ -73,7 +81,6 @@ button {
 button:hover{
 	background: rgb(173, 196, 239);
 }
-
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
