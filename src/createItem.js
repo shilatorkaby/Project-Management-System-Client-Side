@@ -2,7 +2,8 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
-import { Buffer } from 'buffer'
+import { validateTitle, titleConstraint } from "./validations";
+import { Buffer } from 'buffer';
 
 let boardId;
 let token;
@@ -12,8 +13,7 @@ let status;
 const initCreateItem = (key) => {
   console.log("arrived to item create");
 
-  board = history.state.board;
-  //boardId = board.id;
+  board = history.state.board;  
   status = history.state.status;
   status = status.replace("-", " ");
   token = key.token.data;
@@ -67,7 +67,7 @@ const onCreateItemClick = (board) => {
     let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
     console.log(JSON.stringify(item, replacer));
 
-    if (title.length != 0) {
+    if (validateTitle(title)) {
       document.getElementById("create-item-alert").innerHTML = "";
 
       fetch(serverAddress + "/board/addItem", {
@@ -93,7 +93,7 @@ const onCreateItemClick = (board) => {
       });
 
     } else {
-      document.getElementById("create-item-alert").innerHTML = "Item must have title";
+      document.getElementById("create-item-alert").innerHTML = titleConstraint("Item");
     }
 
   });

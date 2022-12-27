@@ -8,9 +8,8 @@
     <label for="chk" aria-hidden="true" id="page-title-label"> Create New Item</label>
     <label class="field-label" for="chk" aria-hidden="true" id="status-name"> </label>
 
-    <input type="text" id="title" placeholder="title" />
+    <input onfocus="getElementById('create-item-alert').innerHTML=''" type="text" id="title" placeholder="title" />
     <input type="text" id="description" placeholder="description" />
-
 
     <div id=inline-div>
       <label class="field-label" for="types">Select item type</label>

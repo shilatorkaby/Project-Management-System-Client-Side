@@ -10,10 +10,12 @@ const validatePassword = (password) => {
     : false;
 };
 
-const validateTitle = (title) => {
-  return /[A-Za-z0-9-_ ]{0,100}/.test(password)
-  ? true
-  : false;
+const validateTitle = (title) => {  
+  return /^([\w\d\-_]+(\s[\w\d\-_]+)*){1,100}$/.test(title);
 };
 
-export { validateEmail, validatePassword, validateTitle };
+const titleConstraint = (str) => {
+  return str + " title can't be empty, and must contain only: letters, digits, hyphens, underscores, and one space only between words; up to 100 chars";
+};
+
+export { validateEmail, validatePassword, validateTitle, titleConstraint };
