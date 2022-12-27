@@ -10,4 +10,10 @@ const validatePassword = (password) => {
     : false;
 };
 
-export { validateEmail, validatePassword };
+const valideTitle = (title) => {
+  return /[A-Za-z0-9-_ ]{0,100}/.test(password)
+  ? true
+  : false;
+};
+
+export { validateEmail, validatePassword, valideTitle };
