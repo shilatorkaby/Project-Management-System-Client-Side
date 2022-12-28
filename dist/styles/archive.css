@@ -1,39 +1,41 @@
 .collapsible {
-    background-color: rgb(55, 94, 166);
-    color: white;
-    cursor: pointer;
-    padding: 18px;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    border-radius: 5px;
+  background-color: rgb(55, 94, 166);
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  border-radius: 5px;
+}
 
-  }
-  
-  .active,
-  .collapsible:hover {
-    background-color: rgb(102, 134, 194);
-    
-  }
-  
-  .content {
-    padding: 0 18px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
-    width: 37%;
-  }
-  
-  .button-container {
-    display: flex;
-  }
-  
-  .item {
-    display: flex;
-    flex-direction: column;
-    margin-right: 16px;
-    margin-top: 0px ;
-  }
-  
+body {
+  background: rgb(41, 67, 114);
+}
+
+.active,
+.collapsible:hover {
+  background-color: rgb(102, 134, 194);
+
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+  width: 37%;
+}
+
+.button-container {
+  display: flex;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+  margin-top: 0px;
+}
