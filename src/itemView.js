@@ -98,7 +98,7 @@ const onSaveCommentClick = (board, item) => {
     if (content.length > 0) {
       document.getElementById("item-view-alert").innerHTML = "";
 
-      fetch(serverAddress + "/item/addItemComment", {
+      fetch(serverAddress + "/item/addComment", {
         method: "PATCH",
         body: JSON.stringify(commentRequest),
         headers: {
@@ -116,7 +116,7 @@ const onSaveCommentClick = (board, item) => {
           onClose(updatedBoard.data);
         }
       }).catch(error => {
-        document.getElementById("item-view-alert").innerHTML = `Error: ${error}`;
+        document.getElementById("item-view-alert").innerHTML = `${error}`;
       });
     } else {
       document.getElementById("item-view-alert").innerHTML = "Comment cannot be empty";

@@ -336,7 +336,7 @@ const onSetDueDateClick = (board) => {
         action: "SET_ITEM_DUE_DATE"
       },
     }).then((response) => {
-      return response.ok ? response.json() : response.text().then(text => { throw new Error(text)});
+      return response.ok ? response.json() : response.json().then(res => { throw new Error(res.message)});
     }).then((updatedBoard) => {
       if (updatedBoard != null) {
         console.log("item's due date was updated successfully");
@@ -344,7 +344,7 @@ const onSetDueDateClick = (board) => {
         urlLocationHandler();
       }
     }).catch(error => {
-      document.getElementById("edit-item-alert").innerHTML = `Error: ${error}`;
+      document.getElementById("edit-item-alert").innerHTML = `${error}`;
     });
   })
 }
