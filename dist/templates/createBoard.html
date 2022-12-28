@@ -9,7 +9,7 @@
   <div class="new_file">
 
     <label for="chk" aria-hidden="true">Create New Board</label>
-    <input type="text" id="title" placeholder="title"/>
+    <input onfocus="getElementById('board-settings-alert').innerHTML=''" type="text" id="title" placeholder="title"/>
 
     <div id = inline-div>
     <input type="text" id="status-input" placeholder="statuses"/>
@@ -24,6 +24,11 @@
     <ul id="types-table"></ul>
 
     <button type="click" id="create-button" class="new_file_btn">Create</button>
+
+    <div>
+      <p id="board-settings-alert"></p>
+    </div>
+
   </div>
 </div>
 

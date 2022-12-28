@@ -2,9 +2,9 @@ import $ from "jquery";
 
 import { urlLocationHandler } from "./router";
 import { serverAddress } from "./constants";
-import { Buffer } from 'buffer'
+import { validateTitle, titleConstraint } from "./validations";
+import { Buffer } from 'buffer';
 
-let boardId;
 let token;
 let board;
 let status;
@@ -13,7 +13,6 @@ const initCreateItem = (key) => {
   console.log("arrived to item create");
 
   board = history.state.board;
-  boardId = board.id;
   status = history.state.status;
   status = status.replace("-", " ");
   token = key.token.data;
@@ -23,7 +22,28 @@ const initCreateItem = (key) => {
   displayTypesList(board);
   displayParentItemsList(board);
   displayAuthUsersEmailsList(board.authorizedUsers);
+  onCreateItemClick(board);
+  onClose(board);
+}
 
+const displayTypesList = (board) => {
+  var typesSelect = document.getElementById('types-select')
+  $("#types-select").empty();
+
+  var opt = document.createElement('option');
+  opt.text = "no-type";
+  opt.value = "";
+  typesSelect.appendChild(opt);
+  for (const type of board.types) {
+    var opt = document.createElement('option');
+    opt.value = type;
+    opt.text = type;
+    typesSelect.appendChild(opt);
+
+  }
+}
+
+const onCreateItemClick = (board) => {
   $("#create-button").on("click", () => {
 
     let title = $("#title").val();
@@ -43,9 +63,8 @@ const initCreateItem = (key) => {
     }
 
     let item = { title: title, status: status, type: type, parentId: parentId, assignedToId: assignedToId, creatorId: creatorId, importance: importance, dueDate: dueDate, description: description };
-    console.log(JSON.stringify(item, replacer));
 
-    if (title.length != 0) {
+    if (validateTitle(title)) {
       document.getElementById("create-item-alert").innerHTML = "";
 
       fetch(serverAddress + "/item/addItem", {
@@ -53,11 +72,14 @@ const initCreateItem = (key) => {
         body: JSON.stringify(item, replacer),
         headers: {
           "Content-Type": "application/json",
-          Authorization: key.token.data,
-          boardId: boardId,
+          Authorization: token,
+          boardId: board.id,
           action: "CREATE_ITEM"
         },
       }).then((response) => {
+        if (response.status === 401) {
+          document.getElementById("create-item-alert").innerHTML = "You are unauthorized to create items";
+        }
         return (response.status >= 200 && response.status) <= 204 ? response.json() : null;
       }).then((updatedBoard) => {
         if (updatedBoard != null) {
@@ -68,34 +90,18 @@ const initCreateItem = (key) => {
       });
 
     } else {
-      document.getElementById("create-item-alert").innerHTML = "Item must have title";
+      document.getElementById("create-item-alert").innerHTML = titleConstraint("Item");
+      console.log("Invalid item title input");
     }
 
   });
+}
 
-
+const onClose = (board) => {
   $("#close-icon").on("click", () => {
     window.history.pushState({ board: board }, "", "/board-view");
     urlLocationHandler();
   });
-
-}
-
-const displayTypesList = (board) => {
-  var typesSelect = document.getElementById('types-select')
-  $("#types-select").empty();
-
-  var opt = document.createElement('option');
-  opt.text = "no-type";
-  opt.value = "";
-  typesSelect.appendChild(opt);
-  for (const type of board.types) {
-    var opt = document.createElement('option');
-    opt.value = type;
-    opt.text = type;
-    typesSelect.appendChild(opt);
-
-  }
 }
 
 const displayParentItemsList = (board) => {
