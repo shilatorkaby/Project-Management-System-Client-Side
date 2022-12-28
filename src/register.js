@@ -18,7 +18,7 @@ const initRegister = () => {
 
       fetch(serverAddress + "/user/register", {
         method: "POST",
-        body: JSON.stringify({ email: user.email, password: user.password }),
+        body: JSON.stringify({ email: user.email, password: user.password, loginMethod: "PASSWORD_BASED" }),
         headers: {
           "Content-Type": "application/json",
         },
