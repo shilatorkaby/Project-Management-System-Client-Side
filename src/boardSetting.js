@@ -30,31 +30,22 @@ const initBoardSetting = async (key) => {
         console.log("change title btn clicked");
         let boardTitle = document.getElementById("set-title-input").value;        
         changeTitle(boardTitle);        
-        window.history.pushState({ board: board }, "", "/board-view");
-        urlLocationHandler();
     });
 
     $("#add-status-btn").on("click", function () {        
         console.log("status btn clicked");
         const status = document.getElementById("status-input-to-add").value;        
         addStatuses(status);
-        window.history.pushState({ board: board }, "", "/board-view");
-        urlLocationHandler();
     });
 
     $("#add-type-btn").on("click", function () {
         const type = document.getElementById("type-input-to-add").value;        
         addTypes(type);       
-        window.history.pushState({ board: board }, "", "/board-view");
-        urlLocationHandler();
     });
 
     $("#remove-type-btn").on("click", function () {
         let type = $("#type-to-remove-select :selected").text();
         removeTypes(type);
-
-        window.history.pushState({ board: board }, "", "/board-view");
-        urlLocationHandler();
     });
 
     $("#assign-user-btn").on("click", function () {
@@ -80,8 +71,12 @@ const initBoardSetting = async (key) => {
                     console.log(updatedBoard);
                     board = updatedBoard.data;
 
-                    window.history.pushState({ board: board }, "", "/board-view");
-                    urlLocationHandler();
+                    document.getElementById("board-settings-confirm").innerHTML = "User was assigned successfully";
+                
+                    $("#close-icon").on("click", () => {
+                        window.history.pushState({ board: board }, "", "/board-view");
+                        urlLocationHandler();
+                    })
                 }
             }).catch(error => {
                 document.getElementById("board-settings-alert").innerHTML = `${error}`;
@@ -143,8 +138,12 @@ const updateValue = (value, path) => {
                 console.log(updatedBoard.data);
                 board = updatedBoard.data;
 
-                window.history.pushState({ board: board }, "", "/board-view");
-                urlLocationHandler();
+                document.getElementById("board-settings-confirm").innerHTML = "The operation was carried out successfully";
+                
+                $("#close-icon").on("click", () => {
+                    window.history.pushState({ board: board }, "", "/board-view");
+                    urlLocationHandler();
+                })
             }
         }).catch(error => {
             document.getElementById("board-settings-alert").innerHTML = `${error}`;
