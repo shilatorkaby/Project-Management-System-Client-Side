@@ -144,12 +144,7 @@ body {
 .forms .signup-form .title:before {
   width: 20px;
 }
-
-.forms .form-content .input-boxes {
-  margin-top: 30px;
-}
-
-.forms .form-content .input-box {
+.forms .form-content .input-box{
   display: flex;
   align-items: center;
   height: 50px;
@@ -270,3 +265,15 @@ body {
   height: 40px;
   width: 40px;
 }
+
+button{
+  color: rgb(25, 49, 121);
+  background: rgb(220, 223, 230);
+  border-radius: 3px;
+  border: none;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+  margin-left: 0%;
+}
+

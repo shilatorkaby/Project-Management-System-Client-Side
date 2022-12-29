@@ -48,6 +48,7 @@ const displayItemDescription = (item) => {
   }
 }
 
+
 const displayTypesList = (board) => {
   var typesSelect = document.getElementById('set-type-select')
   $("#set-type-select").empty();
